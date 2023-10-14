@@ -26,16 +26,16 @@ namespace TimeTableApp_NEA
             try
             {
                 string fileExtension = ".txt";
-                string fullFilePath = fileName + fileExtension;
+                string filePath = fileName + fileExtension;
 
 
-                using (FileStream fileStream = File.Open(fullFilePath, FileMode.OpenOrCreate))
+                using (FileStream fileStream = File.Open(filePath, FileMode.OpenOrCreate))
                 {
 
                 }
 
                 Console.Clear();
-                Console.WriteLine("File " + fullFilePath + " created or opened successfully.");
+                Console.WriteLine("File " + filePath + " created or opened successfully.");
             }
             catch (Exception error)
             {
@@ -60,7 +60,7 @@ namespace TimeTableApp_NEA
         public int[,] hours { get; }
         public int[,] minutes { get; }
 
-        //This conctuctor initializes the Arrays
+        
         ActivitiesAndTimes(int rows, int columns)
         {
 
