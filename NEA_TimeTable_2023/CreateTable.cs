@@ -55,35 +55,36 @@ namespace TimeTableApp_NEA
 
     class ActivitiesAndTimes
     {
-        public string[] days { get; set; }
-        public string[,] activities { get; }
-        public int[,] hours { get; }
-        public int[,] minutes { get; }
+        public string[] days;
+        public string[,] activities;
+        public int[,] hours;
+        public int[,] minutes;
 
         
-        ActivitiesAndTimes(int rows, int columns)
+        public ActivitiesAndTimes(int numRows, int numColumns)
         {
 
-            activities = new string[columns, rows];
-            hours = new int[columns, rows];
-            minutes = new int[columns, rows];
+            activities = new string[numColumns, numRows];
+            hours = new int[numColumns, numRows];
+            minutes = new int[numColumns, numRows];
             days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < numRows* numColumns; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < numColumns; j++)
                 {
-                    hours[i, j] = i * columns + j;
-                    minutes[i, j] = i * columns + j;
+                    
+                    hours[i, j] = i * numColumns + j;
+                    minutes[i, j] = i * numColumns + j;
                     activities[i, j] = $"Row {i}, Col {j}";
                 }
             }
         }
-        public void HoursValue(int rows, int columns, int value)
+        public void HoursValue(int numRows, int columns, int value)
         {
-            if (rows >= 0 && rows < hours.GetLength(0) && columns >= 0 && columns < hours.GetLength(1))
+            if (numRows >= 0 && numRows < hours.GetLength(0) && columns >= 0 && columns < hours.GetLength(1))
             {
-                hours[rows, columns] = value;
+                hours[numRows, columns] = value;
             }
             else
             {
@@ -91,11 +92,11 @@ namespace TimeTableApp_NEA
             }
         }
 
-        public void MinutesValue(int rows, int columns, int value)
+        public void MinutesValue(int numRows, int columns, int value)
         {
-            if (rows >= 0 && rows < minutes.GetLength(0) && columns >= 0 && columns < minutes.GetLength(1))
+            if (numRows >= 0 && numRows < minutes.GetLength(0) && columns >= 0 && columns < minutes.GetLength(1))
             {
-                minutes[rows, columns] = value;
+                minutes[numRows, columns] = value;
             }
             else
             {
@@ -104,11 +105,11 @@ namespace TimeTableApp_NEA
         }
 
 
-        public void ActivitiesInput(int rows, int columns, string value)
+        public void ActivitiesInput(int numRows, int columns, string value)
         {
-            if (rows >= 0 && rows < activities.GetLength(0) && columns >= 0 && columns < activities.GetLength(1))
+            if (numRows >= 0 && numRows < activities.GetLength(0) && columns >= 0 && columns < activities.GetLength(1))
             {
-                activities[rows, columns] = value;
+                activities[numRows, columns] = value;
             }
             else
             {
@@ -117,11 +118,5 @@ namespace TimeTableApp_NEA
         }
     }
 
-    class activities
-    {
-        activities()
-        {
 
-        }
-    }
 }

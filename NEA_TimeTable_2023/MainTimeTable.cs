@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Data.Common;
 
 namespace TimeTableApp_NEA
 {
@@ -56,13 +57,25 @@ Press any key to enter.");
         static void SlotAmount()
         {
             Console.Clear();
+
             Console.WriteLine("Hello user. How many slots for activities will you want?");
 
-
-            int numRows = int.Parse(Console.ReadLine());
+            int numRows;
             int numColumns = 7;
 
-            
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out numRows))
+                {
+                    break; 
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer.");
+                }
+            } while (true);
+
             Console.WriteLine("Are you happy with the amount of slots you chave chosen for you activities? " + "(Slot amount: " + numRows + ")");
             string option = Console.ReadLine();
             option = option.ToLower();
@@ -70,6 +83,7 @@ Press any key to enter.");
             while (option != "yes")
             {
                 Console.Clear();
+
                 Console.WriteLine("Hello user. How many slots for activities will you want?");
 
                 numRows = int.Parse(Console.ReadLine());
@@ -82,7 +96,6 @@ Press any key to enter.");
 
             if (option == "yes")
             {
-                CreateTable Table = new CreateTable(numColumns, numRows);
                 Console.Clear();
                 ActivitiesAndTime(numColumns, numRows);
             }
@@ -92,10 +105,13 @@ Press any key to enter.");
         {
             Console.Clear();
 
+            
+            ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
 
-            ActivitiesAndTimes[,] activities = new ActivitiesAndTimes[numColumns, numRows];
+            string[,] activities = new string[numColumns, numRows];
             int[,] minutes = new int[numColumns, numRows];
             int[,] hours = new int[numColumns, numRows];
+
             string[]days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
 
@@ -106,10 +122,35 @@ Press any key to enter.");
                 Console.WriteLine(days[count1]);
                 Console.WriteLine("");
                 Console.WriteLine("Enter the hour the activity will take place. 0-23");
-                hours[count1, count2] = int.Parse(Console.ReadLine());
+
+                do
+                {
+                    string userInput = Console.ReadLine();
+                    if (int.TryParse(userInput, out hours[count1, count2]))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine(" Please enter a valid integer.");
+                    }
+                } while (true);
 
                 Console.WriteLine("Enter the minute of the hour the activity will take place. 0-59");
-                minutes[count1, count2] = int.Parse(Console.ReadLine());
+                do
+                {
+                    string userInput = Console.ReadLine();
+                    if (int.TryParse(userInput, out minutes[count1, count2]))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine(" Please enter a valid integer.");
+                    }
+                } while (true);
+                
+                
 
                 Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
                 string option = Console.ReadLine();
@@ -133,23 +174,37 @@ Press any key to enter.");
 
                 if (hours[count1, count2] < 24 || minutes[count1, count2] < 60 && hours[count1, count2] >= 0 || minutes[count1, count2] >= 0)
                 {
-                    
+                    activitiesAndTimes.HoursValue(count1,count2,hours[count1, count2]);
+                    activitiesAndTimes.MinutesValue(count1,count2,minutes[count1, count2]);
                 }
 
                 for (int f = 0; f < numColumns * numRows; f++)
                 {
                     Console.Clear();
+                    Console.WriteLine(days[count1]+" "+ hours[count1, count2] + ":" + minutes[count1,count2]);
+
                     Console.WriteLine("Enter the activity for the time your have chosen.");
+                    activities[count1, count2] = Console.ReadLine();
 
+                    Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
+                    string option2 = Console.ReadLine();
 
-                    while (option != "Yes")
+                    while (option2 != "Yes")
                     {
                         Console.Clear();
-                        Console.WriteLine("Please enter an Hour between 0-23.");
-                        
+
+                        Console.WriteLine("Enter the activity for the time your have chosen.");
+                        activities[count1, count2] = Console.ReadLine();
+
+                        Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
+                        option2 = Console.ReadLine();
                     }
+                    //Checks to see if the user is happy with the activity they choosen
+                    
                 }
+
             }
+            //loops for time and activities 
 
         }
 
@@ -185,6 +240,7 @@ Press any key to enter.");
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
 
             }
+            //Checks the max month and max days and lowest days and lowest month int
 
             while ((dayInt > 31 && (monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 || monthInt == 8 || monthInt == 10 || monthInt == 12)) || (dayInt > 30 && (monthInt == 4 || monthInt == 6 || monthInt == 9 || monthInt == 11)) || (dayInt > 28 && monthInt == 2))
             {
