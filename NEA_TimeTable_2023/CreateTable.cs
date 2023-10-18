@@ -69,16 +69,6 @@ namespace TimeTableApp_NEA
             minutes = new int[numColumns, numRows];
             days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-            for (int i = 0; i < numRows* numColumns; i++)
-            {
-                for (int j = 0; j < numColumns; j++)
-                {
-                    
-                    hours[i, j] = i * numColumns + j;
-                    minutes[i, j] = i * numColumns + j;
-                    activities[i, j] = $"Row {i}, Col {j}";
-                }
-            }
         }
         public void HoursValue(int numRows, int columns, int value)
         {

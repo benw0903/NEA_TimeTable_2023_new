@@ -107,10 +107,8 @@ Press any key to enter.");
 
             
             ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
-
-            string[,] activities = new string[numColumns, numRows];
-            int[,] minutes = new int[numColumns, numRows];
-            int[,] hours = new int[numColumns, numRows];
+            int hoursValue, minutesValue;
+            string activity;
 
             string[]days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
@@ -126,13 +124,14 @@ Press any key to enter.");
                 do
                 {
                     string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out hours[count1, count2]))
+                    if (int.TryParse(userInput, out hoursValue))
                     {
+                        activitiesAndTimes.HoursValue(count1, count2, hoursValue);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine(" Please enter a valid integer.");
+                        Console.WriteLine("Please enter a valid integer.");
                     }
                 } while (true);
 
@@ -140,13 +139,14 @@ Press any key to enter.");
                 do
                 {
                     string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out minutes[count1, count2]))
+                    if (int.TryParse(userInput, out minutesValue))
                     {
+                        activitiesAndTimes.MinutesValue(count1, count2, minutesValue);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine(" Please enter a valid integer.");
+                        Console.WriteLine("Please enter a valid integer.");
                     }
                 } while (true);
                 
@@ -156,15 +156,37 @@ Press any key to enter.");
                 string option = Console.ReadLine();
                 option = option.ToLower();
 
-                while (option != "yes" || minutes[count1, count2] > 59 && hours[count1, count2] < 0 || hours[count1, count2] > 23 && hours[count1, count2] < 0)
+                while (option != "yes" || minutesValue > 59 && minutesValue < 0 || hoursValue > 23 && hoursValue < 0)
                 {
                     Console.Clear();
 
                     Console.WriteLine("Enter the hour the time will take place. 0-23");
-                    hours[count1, count2] = int.Parse(Console.ReadLine());
+                    do
+                    {
+                        string userInput = Console.ReadLine();
+                        if (int.TryParse(userInput, out hoursValue))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid integer.");
+                        }
+                    } while (true);
 
                     Console.WriteLine("Enter the minute of the hour the activity will take place. 0-59");
-                    minutes[count1, count2] = int.Parse(Console.ReadLine());
+                    do
+                    {
+                        string userInput = Console.ReadLine();
+                        if (int.TryParse(userInput, out minutesValue))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please enter a valid integer.");
+                        }
+                    } while (true);
 
                     Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
                     option = Console.ReadLine();
@@ -172,36 +194,37 @@ Press any key to enter.");
                 // Makes sure the Hours and Minutes are valid
 
 
-                if (hours[count1, count2] < 24 || minutes[count1, count2] < 60 && hours[count1, count2] >= 0 || minutes[count1, count2] >= 0)
+                if (hoursValue < 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue >= 0)
                 {
-                    activitiesAndTimes.HoursValue(count1,count2,hours[count1, count2]);
-                    activitiesAndTimes.MinutesValue(count1,count2,minutes[count1, count2]);
+                    activitiesAndTimes.HoursValue(count1,count2,hoursValue);
+                    activitiesAndTimes.MinutesValue(count1,count2,minutesValue);
                 }
 
-                for (int f = 0; f < numColumns * numRows; f++)
+                
+                
+                Console.Clear();
+                Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+
+                Console.WriteLine("Enter the activity for the time your have chosen.");
+                activity = Console.ReadLine();
+
+                Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
+                string option2 = Console.ReadLine();
+
+                while (option2 != "Yes")
                 {
                     Console.Clear();
-                    Console.WriteLine(days[count1]+" "+ hours[count1, count2] + ":" + minutes[count1,count2]);
+                    Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
 
                     Console.WriteLine("Enter the activity for the time your have chosen.");
-                    activities[count1, count2] = Console.ReadLine();
+                    activity = Console.ReadLine();
 
                     Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
-                    string option2 = Console.ReadLine();
-
-                    while (option2 != "Yes")
-                    {
-                        Console.Clear();
-
-                        Console.WriteLine("Enter the activity for the time your have chosen.");
-                        activities[count1, count2] = Console.ReadLine();
-
-                        Console.WriteLine("Are you happy with the times your picked? (Yes/No)");
-                        option2 = Console.ReadLine();
-                    }
-                    //Checks to see if the user is happy with the activity they choosen
-                    
+                    option2 = Console.ReadLine();
                 }
+                //Checks to see if the user is happy with the activity they choosen
+                    
+                
 
             }
             //loops for time and activities 
