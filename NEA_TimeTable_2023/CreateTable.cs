@@ -7,6 +7,7 @@ using System.IO;
 
 namespace TimeTableApp_NEA
 {
+
     class CreateTable
     {
         public string[,] TableRowAndColumns { get; }
@@ -27,12 +28,8 @@ namespace TimeTableApp_NEA
             {
                 string fileExtension = ".txt";
                 string filePath = fileName + fileExtension;
+                FileStream fileStream = File.Open(filePath, FileMode.Create);
 
-
-                using (FileStream fileStream = File.Open(filePath, FileMode.OpenOrCreate))
-                {
-
-                }
 
                 Console.Clear();
                 Console.WriteLine("File " + filePath + " created or opened successfully.");
@@ -47,9 +44,23 @@ namespace TimeTableApp_NEA
 
     class block
     {
-        block()
-        {
+        public string[,] table;
 
+        block(int[,]hours, int[,] minutes,string[] days, string[,] activities, int numRows, int numColumns)
+        {
+            Console.WriteLine(@"____________
+/             \
+|             |
+|             |
+|             |
+|             |
+|             | 
+\_____________/");
+            table = new string[numColumns, numRows];
+            for(int i = 0; i < numColumns*numRows; i++)
+            {
+                
+            }
         }
     }
 
@@ -108,5 +119,5 @@ namespace TimeTableApp_NEA
         }
     }
 
-
+    
 }
