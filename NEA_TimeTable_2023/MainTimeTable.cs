@@ -40,8 +40,8 @@ Press any key to enter.");
             {
                 Console.Clear();
                 Console.WriteLine(@"Would you like to view or create a table today?
-1.view
-2.create");
+1.View
+2.Create");
                 option = Console.ReadLine();
                 option = option.ToLower();
 
@@ -80,7 +80,7 @@ Press any key to enter.");
 
             Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities? " + "(Slot amount: " + numRows + ") " +
 "1.Yes"+
-"2.NO");
+"2.No");
             string option = Console.ReadLine();
             option = option.ToLower();
 
@@ -93,12 +93,10 @@ Press any key to enter.");
                 numRows = int.Parse(Console.ReadLine());
                 Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities? " + "(Slot amount: " + numRows + ") " +
 "1.Yes" +
-"2.NO");
+"2.No");
 
                 Console.WriteLine("");
-                Console.WriteLine(@"Are you happy with the amount of slots you have chosen?
-1.Yes
-2.NO");
+
                 option = Console.ReadLine();
             }
 
@@ -127,7 +125,7 @@ Press any key to enter.");
 
                 Console.WriteLine(days[count1]);
                 Console.WriteLine("");
-                Console.WriteLine("Enter the hour the activity will take place. 0-23");
+                Console.WriteLine("Enter the hour the activity will take place. 00-23");
 
                 do
                 {
@@ -143,7 +141,7 @@ Press any key to enter.");
                     }
                 } while (true);
 
-                Console.WriteLine("Enter the minute of the hour the activity will take place. 0-59");
+                Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
                 do
                 {
                     string userInput = Console.ReadLine();
@@ -170,7 +168,8 @@ Press any key to enter.");
                 {
                     Console.Clear();
 
-                    Console.WriteLine("Enter the hour the time will take place. 0-23");
+                    Console.WriteLine(days[count1]);
+                    Console.WriteLine("Enter the hour the time will take place. 00-23");
                     do
                     {
                         string userInput = Console.ReadLine();
@@ -184,7 +183,7 @@ Press any key to enter.");
                         }
                     } while (true);
 
-                    Console.WriteLine("Enter the minute of the hour the activity will take place. 0-59");
+                    Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
                     do
                     {
                         string userInput = Console.ReadLine();
@@ -197,6 +196,7 @@ Press any key to enter.");
                             Console.WriteLine("Please enter a valid integer.");
                         }
                     } while (true);
+                    Console.Clear();
 
                     Console.WriteLine(@"Are you happy with the times you have picked? 
 1.Yes
@@ -215,7 +215,15 @@ Press any key to enter.");
                 
                 
                 Console.Clear();
-                Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+                if(minutesValue > 9)
+                {
+                    Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+                }
+                if(minutesValue < 10)
+                {
+                    Console.WriteLine(days[count1]+" "+ hoursValue + ":0" + minutesValue);
+                }
+                // makes sure the time is 1:02 instead of 1:2
 
                 Console.WriteLine("Enter the activity for the time you have chosen.");
                 activity = Console.ReadLine();
@@ -224,14 +232,25 @@ Press any key to enter.");
 1.Yes
 2.No");
                 string option2 = Console.ReadLine();
+                option2 = option2.ToLower();
 
-                while (option2 != "Yes")
+                while (option2 != "yes")
                 {
                     Console.Clear();
-                    Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
+                    
+                    if(minutesValue > 9)
+                    {
+                        Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+                    }
+                    if(minutesValue < 10)
+                    {
+                        Console.WriteLine(days[count1]+" "+ hoursValue + ":0" + minutesValue);
+                    }
+                    // makes sure the time is 1:02 instead of 1:2
 
                     Console.WriteLine("Enter the activity for the time you have chosen.");
                     activity = Console.ReadLine();
+                    Console.Clear();
 
                     Console.WriteLine(@"Are you happy with the times you have picked?
 1.Yes
@@ -240,7 +259,12 @@ Press any key to enter.");
                 }
                 //Checks to see if the user is happy with the activity they choosen
                     
-                
+                count2++;
+                if(count2 % numRows == 0)
+                {
+                    count2=0;
+                    count1++;
+                }
 
             }
             //loops for time and activities 
