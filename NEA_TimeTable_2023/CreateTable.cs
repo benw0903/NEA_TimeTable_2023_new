@@ -8,18 +8,6 @@ using System.IO;
 namespace TimeTableApp_NEA
 {
 
-    class CreateTable
-    {
-        public string[,] TableRowAndColumns { get; }
-
-        public CreateTable(int rows, int columns)
-        {
-            TableRowAndColumns = new string[columns, rows];
-        }
-
-
-    }
-
     class CreateFile
     {
         public void Create(string fileName)
@@ -48,20 +36,93 @@ namespace TimeTableApp_NEA
 
         block(int[,]hours, int[,] minutes,string[] days, string[,] activities, int numRows, int numColumns)
         {
-            Console.WriteLine(@"____________
-/             \
-|             |
-|             |
+            table = new string[numColumns, numRows];
+            string printTable;
+            int count1 = 0;
+            int count2 = 0;
+
+            for(int i = 0; i < numColumns*numRows; i++)
+            {
+                if(count2 == 0)
+                {
+                    if (hours[count1, count2] < 10)
+                    {
+                        table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + "0" + hours + ":" + minutes + @"     |
+|   " + activities + @"          |
 |             |
 |             |
 |             | 
-\_____________/");
-            table = new string[numColumns, numRows];
-            for(int i = 0; i < numColumns*numRows; i++)
-            {
+\_____________/";
+                    }
+
+                    if (hours[count1, count2] > 9)
+                    {
+                        table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + hours + ":" + minutes + @"      |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                    }
+                }
+
+                if (hours[count1,count2] > 9)
+                {
+                    table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + hours + ":" + minutes + @"      |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                }
+
+                else
+                {
+                    table[count1, count2] = @"____________
+/             \
+|   " + "0" + hours + ":" + minutes + @"     |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                }
                 
+                count2++;
+                if (count2 % numRows == 0)
+                {
+                    count2 = 0;
+                    count1++;
+                }
+
             }
+            printTable = ""+ table[1,1] + "" + "" + table[1, 2] + "" + "" + table[1, 3] + "" + "" + table[1, 4] + "" + "" + table[1, 5] + "" + "" + table[1, 6] + "" + "" + table[1, 7] + @"" +
+"" + table[2, 1] + "" + "" + table[2, 2] + "" + "" + table[2, 3] + "" + "" + table[2, 4] + "" + "" + table[2, 5] + "" + "" + table[2, 6] + "" + "" + table[2, 7] + @""+ 
+"" + table[3, 1] + "" + "" + table[3, 2] + "" + "" + table[3, 3] + "" + "" + table[3, 4] + "" + "" + table[3, 5] + "" + "" + table[3, 6] + "" + "" + table[3, 7] + @""+
+"" + table[4, 1] + "" + "" + table[4, 2] + "" + "" + table[4, 3] + "" + "" + table[4, 4] + "" + "" + table[4, 5] + "" + "" + table[4, 6] + "" + "" + table[4, 7] + @""+
+"" + table[5, 1] + "" + "" + table[5, 2] + "" + "" + table[5, 3] + "" + "" + table[5, 4] + "" + "" + table[5, 5] + "" + "" + table[5, 6] + "" + "" + table[5, 7] + @""+
+"" + table[6, 1] + "" + "" + table[6, 2] + "" + "" + table[6, 3] + "" + "" + table[6, 4] + "" + "" + table[6, 5] + "" + "" + table[6, 6] + "" + "" + table[6, 7] + @""+
+"" + table[7, 1] + "" + "" + table[7, 2] + "" + "" + table[7, 3] + "" + "" + table[7, 4] + "" + "" + table[7, 5] + "" + "" + table[7, 6] + "" + "" + table[7, 7] + @"";
         }
+
+    }
+
+    class CreateTable
+    {
+        public string[,] TableRowAndColumns { get; }
+
+        public CreateTable(int rows, int columns)
+        {
+            TableRowAndColumns = new string[columns, rows];
+        }
+
+
     }
 
     class ActivitiesAndTimes

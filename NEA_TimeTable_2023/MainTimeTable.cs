@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Data.Common;
+using System.Runtime.InteropServices;
 
 namespace TimeTableApp_NEA
 {
@@ -269,8 +270,161 @@ Press any key to enter.");
             }
             //loops for time and activities 
 
-        }
+            Console.WriteLine();
+            //prints table
 
+            BlockSelect(numRows);
+        }
+        static void BlockSelect(int numRows)
+        {
+            Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
+            int Columns = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the number of which day you want to enter (slot = 1 - slot = "+numRows+").");
+            int Rows = int.Parse(Console.ReadLine());
+            BlockDeleteAndReform(Rows,Columns);
+        }
+        static void BlockDeleteAndReform(int Rows, int Columns)
+        {
+            string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            int numRows = 0, numColumns = 0;
+            int hoursValue, minutesValue;
+            ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
+            string activity;
+
+            Console.WriteLine("Enter the hour the activity will take place. 00-23");
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out hoursValue))
+                {
+                    activitiesAndTimes.HoursValue(numColumns, numRows, hoursValue);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer.");
+                }
+            } while (true);
+
+            Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out minutesValue))
+                {
+                    activitiesAndTimes.MinutesValue(numColumns, numRows, minutesValue);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer.");
+                }
+            } while (true);
+
+
+
+            Console.WriteLine(@"Are you happy with the times you have picked? 
+1.Yes
+2.No");
+            string option = Console.ReadLine();
+            option = option.ToLower();
+
+            while (option != "yes" || minutesValue > 59 && minutesValue < 0 || hoursValue > 23 && hoursValue < 0)
+            {
+                Console.Clear();
+
+                Console.WriteLine(days[numColumns]);
+                Console.WriteLine("Enter the hour the time will take place. 00-23");
+                do
+                {
+                    string userInput = Console.ReadLine();
+                    if (int.TryParse(userInput, out hoursValue))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid integer.");
+                    }
+                } while (true);
+
+                Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
+                do
+                {
+                    string userInput = Console.ReadLine();
+                    if (int.TryParse(userInput, out minutesValue))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a valid integer.");
+                    }
+                } while (true);
+                Console.Clear();
+
+                Console.WriteLine(@"Are you happy with the times you have picked? 
+1.Yes
+2.No");
+                option = Console.ReadLine();
+            }
+            // Makes sure the Hours and Minutes are valid
+
+
+            if (hoursValue < 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue >= 0)
+            {
+                activitiesAndTimes.HoursValue(numColumns, numRows, hoursValue);
+                activitiesAndTimes.MinutesValue(numColumns, numRows, minutesValue);
+            }
+
+
+
+            Console.Clear();
+            if (minutesValue > 9)
+            {
+                Console.WriteLine(days[numColumns] + " " + hoursValue + ":" + minutesValue);
+            }
+            if (minutesValue < 10)
+            {
+                Console.WriteLine(days[numColumns] + " " + hoursValue + ":0" + minutesValue);
+            }
+            // makes sure the time is 1:02 instead of 1:2
+
+            Console.WriteLine("Enter the activity for the time you have chosen.");
+            activity = Console.ReadLine();
+
+            Console.WriteLine(@"Are you happy with the activity you have picked?
+1.Yes
+2.No");
+            string option2 = Console.ReadLine();
+            option2 = option2.ToLower();
+
+            while (option2 != "yes")
+            {
+                Console.Clear();
+
+                if (minutesValue > 9)
+                {
+                    Console.WriteLine(days[numColumns] + " " + hoursValue + ":" + minutesValue);
+                }
+                if (minutesValue < 10)
+                {
+                    Console.WriteLine(days[numColumns] + " " + hoursValue + ":0" + minutesValue);
+                }
+                // makes sure the time is 1:02 instead of 1:2
+
+                Console.WriteLine("Enter the activity for the time you have chosen.");
+                activity = Console.ReadLine();
+                Console.Clear();
+
+                Console.WriteLine(@"Are you happy with the times you have picked?
+1.Yes
+2.No");
+                option2 = Console.ReadLine();
+            }
+            //Checks to see if the user is happy with the activity they choosen
+        }
+    
         static void FileName()
         {
             DateTime currentTime = DateTime.Now;
