@@ -29,7 +29,7 @@ Press any key to enter.");
 
             Console.ReadKey();
             Console.Clear();
-            SlotAmount();
+            ViewOrCreate();
 
         }
         static void ViewOrCreate()
@@ -53,11 +53,11 @@ Press any key to enter.");
                 }
                 if (option == "create")
                 {
-                    SlotAmount();
+                    FileName();
                 }
             }
         }
-        static void SlotAmount()
+        static void SlotAmount(string filename)
         {
             Console.Clear();
 
@@ -71,7 +71,7 @@ Press any key to enter.");
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out numRows))
                 {
-                    break; 
+                    break;
                 }
                 else
                 {
@@ -80,7 +80,7 @@ Press any key to enter.");
             } while (true);
 
             Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities? " + "(Slot amount: " + numRows + ") " +
-"1.Yes"+
+"1.Yes" +
 "2.No");
             string option = Console.ReadLine();
             option = option.ToLower();
@@ -104,20 +104,20 @@ Press any key to enter.");
             if (option == "yes")
             {
                 Console.Clear();
-                ActivitiesAndTime(numColumns, numRows);
+                ActivitiesAndTime(numColumns, numRows,filename);
             }
         }
 
-        static void ActivitiesAndTime(int numColumns, int numRows)
+        static void ActivitiesAndTime(int numColumns, int numRows,string filename)
         {
             Console.Clear();
 
-            
+
             ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
             int hoursValue, minutesValue;
             string activity;
 
-            string[]days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
 
             for (int i = 0; i < numColumns * numRows; i++)
@@ -156,8 +156,8 @@ Press any key to enter.");
                         Console.WriteLine("Please enter a valid integer.");
                     }
                 } while (true);
-                
-                
+
+
 
                 Console.WriteLine(@"Are you happy with the times you have picked? 
 1.Yes
@@ -165,7 +165,7 @@ Press any key to enter.");
                 string option = Console.ReadLine();
                 option = option.ToLower();
 
-                while (option != "yes" || minutesValue > 59 && minutesValue < 0 || hoursValue > 23 && hoursValue < 0)
+                while (option != "yes" || minutesValue > 59 || minutesValue < 0 || hoursValue > 23 || hoursValue < 0)
                 {
                     Console.Clear();
 
@@ -207,22 +207,22 @@ Press any key to enter.");
                 // Makes sure the Hours and Minutes are valid
 
 
-                if (hoursValue < 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue >= 0)
+                if (hoursValue <= 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue > 0)
                 {
-                    activitiesAndTimes.HoursValue(count1,count2,hoursValue);
-                    activitiesAndTimes.MinutesValue(count1,count2,minutesValue);
+                    activitiesAndTimes.HoursValue(count1, count2, hoursValue);
+                    activitiesAndTimes.MinutesValue(count1, count2, minutesValue);
                 }
 
-                
-                
+
+
                 Console.Clear();
-                if(minutesValue > 9)
+                if (minutesValue > 9)
                 {
-                    Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+                    Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
                 }
-                if(minutesValue < 10)
+                if (minutesValue < 10)
                 {
-                    Console.WriteLine(days[count1]+" "+ hoursValue + ":0" + minutesValue);
+                    Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
                 }
                 // makes sure the time is 1:02 instead of 1:2
 
@@ -238,14 +238,14 @@ Press any key to enter.");
                 while (option2 != "yes")
                 {
                     Console.Clear();
-                    
-                    if(minutesValue > 9)
+
+                    if (minutesValue > 9)
                     {
-                        Console.WriteLine(days[count1]+" "+ hoursValue + ":" + minutesValue);
+                        Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
                     }
-                    if(minutesValue < 10)
+                    if (minutesValue < 10)
                     {
-                        Console.WriteLine(days[count1]+" "+ hoursValue + ":0" + minutesValue);
+                        Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
                     }
                     // makes sure the time is 1:02 instead of 1:2
 
@@ -259,30 +259,53 @@ Press any key to enter.");
                     option2 = Console.ReadLine();
                 }
                 //Checks to see if the user is happy with the activity they choosen
-                    
+
+                activitiesAndTimes.ActivitiesInput(count1, count2, activity);
+
                 count2++;
-                if(count2 % numRows == 0)
+                if (count2 % numRows == 0)
                 {
-                    count2=0;
+                    count2 = 0;
                     count1++;
                 }
 
             }
             //loops for time and activities 
 
+            Console.Clear();
             Console.WriteLine();
             //prints table
 
-            BlockSelect(numRows);
+            Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.
+1.Change
+2.Comment
+3.Finish");
+            string option3 = Console.ReadLine();
+            option3 = option3.ToLower();
+
+            if (option3 == "change")
+            {
+                BlockSelect(numRows);
+            }
+            if (option3 == "comment")
+            {
+                Comments();
+            }
+            if (option3 == "finish")
+            {
+                FinishTable(filename);
+            }
         }
+
         static void BlockSelect(int numRows)
         {
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
             int Columns = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter the number of which day you want to enter (slot = 1 - slot = "+numRows+").");
+            Console.WriteLine("Enter the number of which day you want to enter (slot = 1 - slot = " + numRows + ").");
             int Rows = int.Parse(Console.ReadLine());
-            BlockDeleteAndReform(Rows,Columns);
+            BlockDeleteAndReform(Rows, Columns);
         }
+
         static void BlockDeleteAndReform(int Rows, int Columns)
         {
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
@@ -329,7 +352,7 @@ Press any key to enter.");
             string option = Console.ReadLine();
             option = option.ToLower();
 
-            while (option != "yes" || minutesValue > 59 && minutesValue < 0 || hoursValue > 23 && hoursValue < 0)
+            while (option != "yes" || minutesValue >= 60 || minutesValue > 0 || hoursValue >= 24 || hoursValue < 0)
             {
                 Console.Clear();
 
@@ -423,10 +446,93 @@ Press any key to enter.");
                 option2 = Console.ReadLine();
             }
             //Checks to see if the user is happy with the activity they choosen
+
+            Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
+1.Change
+2.Complete");
+
+            string option3 = Console.ReadLine();
+            option3 = option3.ToLower();
+            Console.Clear();
+
+            while (option3 != "change" || option3 != "complete")
+            {
+                Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
+1.Change
+2.Complete");
+                option3 = Console.ReadLine();
+                option3 = option3.ToLower();
+                Console.Clear();
+            }
+            if (option3 == "change")
+            {
+                BlockDeleteAndReform(Rows, Columns);
+            }
+            if (option3 != "complete")
+            {
+                Comments();
+            }
         }
-    
+
+        static void Comments()
+        {
+            List<string> comments = new List<string>();
+
+            do
+            {
+                Console.Write("Enter a comment or type stop to finish commenting. ");
+                string comment = Console.ReadLine();
+
+                if (comment.ToLower() == "stop")
+                {
+                    break;
+                }
+
+                comments.Add(comment);
+            } while (true);
+
+            Console.WriteLine("Comments List:");
+            for (int i = 0; i < comments.Count; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + comments[i]);
+            }
+
+            while (true)
+            {
+                Console.Write("Enter the number of the comment to remove (0 to exit): ");
+                if (int.TryParse(Console.ReadLine(), out int selection))
+                {
+                    if (selection == 0)
+                    {
+                        break;
+                    }
+
+                    if (selection >= 1 && selection <= comments.Count)
+                    {
+                        comments.RemoveAt(selection - 1);
+                        Console.WriteLine("Comment removed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid selection. Please try again.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a number or '0' to exit.");
+                }
+            }
+
+            Console.WriteLine("Updated Comments List:");
+            for (int i = 0; i < comments.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {comments[i]}");
+            }
+        }
+
         static void FileName()
         {
+            Console.Clear();
             DateTime currentTime = DateTime.Now;
 
             Console.WriteLine(@"The current Date and Time is: " + currentTime +
@@ -490,8 +596,14 @@ Press any key to enter.");
 
             CreateFile createFile = new CreateFile();
             createFile.Create(filename);
+
+            SlotAmount(filename);
         }
 
+        static void FinishTable(string filename)
+        {
+            Console.WriteLine("Here is your finished Timetable for the date " + filename);
+        }
 
         static void ViewTable()
         {

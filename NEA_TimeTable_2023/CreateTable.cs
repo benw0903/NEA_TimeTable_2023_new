@@ -37,7 +37,6 @@ namespace TimeTableApp_NEA
         block(int[,]hours, int[,] minutes,string[] days, string[,] activities, int numRows, int numColumns)
         {
             table = new string[numColumns, numRows];
-            string printTable;
             int count1 = 0;
             int count2 = 0;
 
@@ -102,16 +101,22 @@ namespace TimeTableApp_NEA
                 }
 
             }
-            printTable = ""+ table[1,1] + "" + "" + table[1, 2] + "" + "" + table[1, 3] + "" + "" + table[1, 4] + "" + "" + table[1, 5] + "" + "" + table[1, 6] + "" + "" + table[1, 7] + @"" +
-"" + table[2, 1] + "" + "" + table[2, 2] + "" + "" + table[2, 3] + "" + "" + table[2, 4] + "" + "" + table[2, 5] + "" + "" + table[2, 6] + "" + "" + table[2, 7] + @""+ 
-"" + table[3, 1] + "" + "" + table[3, 2] + "" + "" + table[3, 3] + "" + "" + table[3, 4] + "" + "" + table[3, 5] + "" + "" + table[3, 6] + "" + "" + table[3, 7] + @""+
-"" + table[4, 1] + "" + "" + table[4, 2] + "" + "" + table[4, 3] + "" + "" + table[4, 4] + "" + "" + table[4, 5] + "" + "" + table[4, 6] + "" + "" + table[4, 7] + @""+
-"" + table[5, 1] + "" + "" + table[5, 2] + "" + "" + table[5, 3] + "" + "" + table[5, 4] + "" + "" + table[5, 5] + "" + "" + table[5, 6] + "" + "" + table[5, 7] + @""+
-"" + table[6, 1] + "" + "" + table[6, 2] + "" + "" + table[6, 3] + "" + "" + table[6, 4] + "" + "" + table[6, 5] + "" + "" + table[6, 6] + "" + "" + table[6, 7] + @""+
-"" + table[7, 1] + "" + "" + table[7, 2] + "" + "" + table[7, 3] + "" + "" + table[7, 4] + "" + "" + table[7, 5] + "" + "" + table[7, 6] + "" + "" + table[7, 7] + @"";
+        }
+        public void PrintTable()
+        {
+            for (int numRows = 0; numRows < table.GetLength(0); numRows++)
+            {
+                for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
+                {
+                    Console.Write(table[numRows, numColumns]);
+                    Console.Write("  ");
+                }
+                Console.WriteLine(); 
+            }
         }
 
     }
+
 
     class CreateTable
     {
