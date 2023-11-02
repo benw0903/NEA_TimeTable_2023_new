@@ -500,7 +500,8 @@ Press any key to enter.");
 
             while (true)
             {
-                Console.Write("Enter the number of the comment to remove (0 to exit): ");
+                Console.Write(@"Enter the number of the comment to remove.  
+If you are finished then you will be able to exit by entering (0) ");
                 if (int.TryParse(Console.ReadLine(), out int selection))
                 {
                     if (selection == 0)
@@ -593,7 +594,10 @@ Press any key to enter.");
                 dayString = filename.Substring(0, 2); monthString = filename.Substring(3, 2); YearString = filename.Substring(6, 4);
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
             }
-            Console.WriteLine(filename + " is a valid date");
+
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+            Console.WriteLine(filename + " is a valid date.");
 
             CreateFile createFile = new CreateFile();
             createFile.Create(filename);

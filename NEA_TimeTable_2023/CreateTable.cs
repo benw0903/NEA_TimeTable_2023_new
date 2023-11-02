@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace TimeTableApp_NEA
 {
@@ -109,10 +110,11 @@ namespace TimeTableApp_NEA
                 {
                     if (hours[count1, count2] < 10)
                     {
-                        table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + "0" + hours + ":" + minutes + @"     |
-|   " + activities + @"          |
+                        table[count1, count2] = @"
+ ____________
+/" + days[count1] + @"          \
+|" + "0" + hours + ":" + minutes + @"     |
+|" + activities + @"          |
 |             |
 |             |
 |             | 
@@ -121,10 +123,11 @@ namespace TimeTableApp_NEA
 
                     if (hours[count1, count2] > 9)
                     {
-                        table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + hours + ":" + minutes + @"      |
-|   " + activities + @"          |
+                        table[count1, count2] = @"
+ ____________
+/" + days[count1] + @"          \
+|" + hours + ":" + minutes + @"      |
+|" + activities + @"          |
 |             |
 |             |
 |             | 
@@ -134,10 +137,11 @@ namespace TimeTableApp_NEA
 
                 if (hours[count1, count2] > 9)
                 {
-                    table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + hours + ":" + minutes + @"      |
-|   " + activities + @"          |
+                    table[count1, count2] = @"
+ ____________
+/" + days[count1] + @"          \
+|" + hours + ":" + minutes + @"      |
+|" + activities + @"          |
 |             |
 |             |
 |             | 
@@ -146,10 +150,11 @@ namespace TimeTableApp_NEA
 
                 else
                 {
-                    table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + "0" + hours + ":" + minutes + @"     |
-|   " + activities + @"          |
+                    table[count1, count2] = @"
+ ____________
+/" + days[count1] + @"          \
+|" + "0" + hours + ":" + minutes + @"     |
+|" + activities + @"          |
 |             |
 |             |
 |             | 
@@ -167,16 +172,15 @@ namespace TimeTableApp_NEA
         }
         public void PrintTable()
         {
-            for (int numRows = 0; numRows < table.GetLength(0); numRows++)
+            int row=0;
+
+            for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
             {
-                for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
-                {
-                    Console.Write(table[numRows, numColumns]);
-                    Console.Write("  ");
-                }
-                Console.WriteLine();
+                Console.Write(table[row, numColumns], table[row + 1, numColumns], table[row + 2, numColumns], table[row + 3, numColumns], table[row + 4, numColumns], table[row + 5, numColumns], table[row + 6, numColumns]);
+
             }
         }
+
     }
 
     
