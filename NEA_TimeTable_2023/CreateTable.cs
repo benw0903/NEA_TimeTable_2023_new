@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace TimeTableApp_NEA
 {
-
+    
     class CreateFile
     {
         public void Create(string fileName)
@@ -112,9 +112,9 @@ namespace TimeTableApp_NEA
                     {
                         table[count1, count2] = @"
  ____________
-/" + days[count1] + @"          \
-|" + "0" + hours + ":" + minutes + @"     |
-|" + activities + @"          |
+/"     + days[count1] + @"     \
+|" + "0" + hours[count1, count2] + ":" + minutes[count1, count2] + @"        |
+|" + activities[count1, count2] + @"          |
 |             |
 |             |
 |             | 
@@ -125,9 +125,9 @@ namespace TimeTableApp_NEA
                     {
                         table[count1, count2] = @"
  ____________
-/" + days[count1] + @"          \
-|" + hours + ":" + minutes + @"      |
-|" + activities + @"          |
+/"     + days[count1] + @"     \
+|" + hours[count1, count2] + ":" + minutes[count1, count2] + @"         |
+|" + activities[count1, count2] + @"          |
 |             |
 |             |
 |             | 
@@ -139,9 +139,9 @@ namespace TimeTableApp_NEA
                 {
                     table[count1, count2] = @"
  ____________
-/" + days[count1] + @"          \
-|" + hours + ":" + minutes + @"      |
-|" + activities + @"          |
+/"     + days[count1] + @"     \
+|" + hours[count1, count2] + ":" + minutes[count1, count2] + @"         |
+|" + activities[count1, count2] + @"          |
 |             |
 |             |
 |             | 
@@ -152,9 +152,9 @@ namespace TimeTableApp_NEA
                 {
                     table[count1, count2] = @"
  ____________
-/" + days[count1] + @"          \
-|" + "0" + hours + ":" + minutes + @"     |
-|" + activities + @"          |
+/"     + days[count1] + @"     \
+|" + "0" + hours[count1,count2] + ":" + minutes[count1, count2] + @"        |
+|" + activities[count1, count2] + @"          |
 |             |
 |             |
 |             | 
@@ -172,11 +172,11 @@ namespace TimeTableApp_NEA
         }
         public void PrintTable()
         {
-            int row=0;
+            int row = 0;
 
             for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
             {
-                Console.Write(table[row, numColumns], table[row + 1, numColumns], table[row + 2, numColumns], table[row + 3, numColumns], table[row + 4, numColumns], table[row + 5, numColumns], table[row + 6, numColumns]);
+                Console.Write(table[row, numColumns]+table[row + 1, numColumns]+ table[row + 2, numColumns]+ table[row + 3, numColumns]+table[row + 4, numColumns]+ table[row + 5, numColumns]+ table[row + 6, numColumns]);
 
             }
         }

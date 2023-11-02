@@ -7,12 +7,15 @@ using System.IO;
 using System.Data.Common;
 using System.Runtime.InteropServices;
 
+
 namespace TimeTableApp_NEA
 {
     class MainTimeTable
     {
+
         static void Main(string[] args)
         {
+            
             Console.WriteLine(@"
 ███╗   ███╗██╗   ██╗████████╗██╗███╗   ███╗███████╗
 ████╗ ████║╚██╗ ██╔╝╚══██╔══╝██║████╗ ████║██╔════╝
@@ -277,6 +280,7 @@ Press any key to enter.");
             schedule.PrintTable();
             //prints table
 
+            Console.WriteLine("");
             Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.
 1.Change
 2.Comment
@@ -286,7 +290,7 @@ Press any key to enter.");
 
             if (option3 == "change")
             {
-                BlockSelect(numRows);
+                BlockSelect(numRows,numColumns);
             }
             if (option3 == "comment")
             {
@@ -298,13 +302,35 @@ Press any key to enter.");
             }
         }
 
-        static void BlockSelect(int numRows)
+        static void BlockSelect(int numRows,int numColumns)
         {
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
-            int Columns = int.Parse(Console.ReadLine());
+            int columns = int.Parse(Console.ReadLine());
+            Console.Clear();
+
             Console.WriteLine("Enter the number of which day you want to enter (slot = 1 - slot = " + numRows + ").");
-            int Rows = int.Parse(Console.ReadLine());
-            BlockDeleteAndReform(Rows, Columns);
+            int rows = int.Parse(Console.ReadLine());
+            Console.Clear();
+
+            while(columns<0 || columns>numColumns || rows < 0 || columns > numColumns)
+            {
+                Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
+                columns = int.Parse(Console.ReadLine());
+                Console.Clear();
+
+                Console.WriteLine("Enter the number of which day you want to enter (slot = 1 - slot = " + numRows + ").");
+                rows = int.Parse(Console.ReadLine());
+                Console.Clear();
+            }
+            
+            if(columns<0 || columns>numColumns || rows < 0 || columns > numColumns)
+            {
+                Console.WriteLine(@"column:"+columns+"" +
+@"rows:"+rows
++"Are valid");
+            }
+
+            BlockDeleteAndReform(rows, columns);
         }
 
         static void BlockDeleteAndReform(int Rows, int Columns)
@@ -447,6 +473,11 @@ Press any key to enter.");
                 option2 = Console.ReadLine();
             }
             //Checks to see if the user is happy with the activity they choosen
+
+            Console.Clear();
+            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.PrintTable();
+            //prints table
 
             Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
 1.Change
@@ -595,9 +626,9 @@ If you are finished then you will be able to exit by entering (0) ");
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
             }
 
+            Console.WriteLine(filename + " is a valid date.");
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
-            Console.WriteLine(filename + " is a valid date.");
 
             CreateFile createFile = new CreateFile();
             createFile.Create(filename);
