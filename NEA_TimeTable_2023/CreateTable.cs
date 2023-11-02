@@ -30,94 +30,6 @@ namespace TimeTableApp_NEA
         }
     }
 
-    class block
-    {
-        public string[,] table;
-
-        block(int[,]hours, int[,] minutes,string[] days, string[,] activities, int numRows, int numColumns)
-        {
-            table = new string[numColumns, numRows];
-            int count1 = 0;
-            int count2 = 0;
-
-            for(int i = 0; i < numColumns*numRows; i++)
-            {
-                if(count2 == 0)
-                {
-                    if (hours[count1, count2] < 10)
-                    {
-                        table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + "0" + hours + ":" + minutes + @"     |
-|   " + activities + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
-                    }
-
-                    if (hours[count1, count2] > 9)
-                    {
-                        table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + hours + ":" + minutes + @"      |
-|   " + activities + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
-                    }
-                }
-
-                if (hours[count1,count2] > 9)
-                {
-                    table[count1, count2] = @"____________
-/   " + days[count1] + @"          \
-|   " + hours + ":" + minutes + @"      |
-|   " + activities + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
-                }
-
-                else
-                {
-                    table[count1, count2] = @"____________
-/             \
-|   " + "0" + hours + ":" + minutes + @"     |
-|   " + activities + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
-                }
-                
-                count2++;
-                if (count2 % numRows == 0)
-                {
-                    count2 = 0;
-                    count1++;
-                }
-
-            }
-        }
-        public void PrintTable()
-        {
-            for (int numRows = 0; numRows < table.GetLength(0); numRows++)
-            {
-                for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
-                {
-                    Console.Write(table[numRows, numColumns]);
-                    Console.Write("  ");
-                }
-                Console.WriteLine(); 
-            }
-        }
-
-    }
-
-
     class CreateTable
     {
         public string[,] TableRowAndColumns { get; }
@@ -136,8 +48,9 @@ namespace TimeTableApp_NEA
         public string[,] activities;
         public int[,] hours;
         public int[,] minutes;
+        public string[,] table;
 
-        
+
         public ActivitiesAndTimes(int numRows, int numColumns)
         {
 
@@ -181,6 +94,87 @@ namespace TimeTableApp_NEA
             else
             {
                 Console.WriteLine("Invalid row or column.");
+            }
+        }
+
+        public void block(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns)
+        {
+            table = new string[numColumns, numRows];
+            int count1 = 0;
+            int count2 = 0;
+
+            for (int i = 0; i < numColumns * numRows; i++)
+            {
+                if (count2 == 0)
+                {
+                    if (hours[count1, count2] < 10)
+                    {
+                        table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + "0" + hours + ":" + minutes + @"     |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                    }
+
+                    if (hours[count1, count2] > 9)
+                    {
+                        table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + hours + ":" + minutes + @"      |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                    }
+                }
+
+                if (hours[count1, count2] > 9)
+                {
+                    table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + hours + ":" + minutes + @"      |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                }
+
+                else
+                {
+                    table[count1, count2] = @"____________
+/   " + days[count1] + @"          \
+|   " + "0" + hours + ":" + minutes + @"     |
+|   " + activities + @"          |
+|             |
+|             |
+|             | 
+\_____________/";
+                }
+
+                count2++;
+                if (count2 % numRows == 0)
+                {
+                    count2 = 0;
+                    count1++;
+                }
+
+            }
+        }
+        public void PrintTable()
+        {
+            for (int numRows = 0; numRows < table.GetLength(0); numRows++)
+            {
+                for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
+                {
+                    Console.Write(table[numRows, numColumns]);
+                    Console.Write("  ");
+                }
+                Console.WriteLine();
             }
         }
     }

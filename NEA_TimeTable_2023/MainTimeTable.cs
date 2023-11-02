@@ -113,7 +113,7 @@ Press any key to enter.");
             Console.Clear();
 
 
-            ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
+            ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
             int hoursValue, minutesValue;
             string activity;
 
@@ -133,7 +133,7 @@ Press any key to enter.");
                     string userInput = Console.ReadLine();
                     if (int.TryParse(userInput, out hoursValue))
                     {
-                        activitiesAndTimes.HoursValue(count1, count2, hoursValue);
+                        schedule.HoursValue(count1, count2, hoursValue);
                         break;
                     }
                     else
@@ -148,7 +148,7 @@ Press any key to enter.");
                     string userInput = Console.ReadLine();
                     if (int.TryParse(userInput, out minutesValue))
                     {
-                        activitiesAndTimes.MinutesValue(count1, count2, minutesValue);
+                        schedule.MinutesValue(count1, count2, minutesValue);
                         break;
                     }
                     else
@@ -209,8 +209,8 @@ Press any key to enter.");
 
                 if (hoursValue <= 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue > 0)
                 {
-                    activitiesAndTimes.HoursValue(count1, count2, hoursValue);
-                    activitiesAndTimes.MinutesValue(count1, count2, minutesValue);
+                    schedule.HoursValue(count1, count2, hoursValue);
+                    schedule.MinutesValue(count1, count2, minutesValue);
                 }
 
 
@@ -260,7 +260,7 @@ Press any key to enter.");
                 }
                 //Checks to see if the user is happy with the activity they choosen
 
-                activitiesAndTimes.ActivitiesInput(count1, count2, activity);
+                schedule.ActivitiesInput(count1, count2, activity);
 
                 count2++;
                 if (count2 % numRows == 0)
@@ -273,7 +273,8 @@ Press any key to enter.");
             //loops for time and activities 
 
             Console.Clear();
-            Console.WriteLine();
+            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.PrintTable();
             //prints table
 
             Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.
@@ -311,7 +312,7 @@ Press any key to enter.");
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int numRows = 0, numColumns = 0;
             int hoursValue, minutesValue;
-            ActivitiesAndTimes activitiesAndTimes = new ActivitiesAndTimes(numRows, numColumns);
+            ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
             string activity;
 
             Console.WriteLine("Enter the hour the activity will take place. 00-23");
@@ -320,7 +321,7 @@ Press any key to enter.");
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out hoursValue))
                 {
-                    activitiesAndTimes.HoursValue(numColumns, numRows, hoursValue);
+                    schedule.HoursValue(numColumns, numRows, hoursValue);
                     break;
                 }
                 else
@@ -335,7 +336,7 @@ Press any key to enter.");
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out minutesValue))
                 {
-                    activitiesAndTimes.MinutesValue(numColumns, numRows, minutesValue);
+                    schedule.MinutesValue(numColumns, numRows, minutesValue);
                     break;
                 }
                 else
@@ -396,8 +397,8 @@ Press any key to enter.");
 
             if (hoursValue < 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue >= 0)
             {
-                activitiesAndTimes.HoursValue(numColumns, numRows, hoursValue);
-                activitiesAndTimes.MinutesValue(numColumns, numRows, minutesValue);
+                schedule.HoursValue(numColumns, numRows, hoursValue);
+                schedule.MinutesValue(numColumns, numRows, minutesValue);
             }
 
 
@@ -609,6 +610,8 @@ Press any key to enter.");
         {
             Console.WriteLine("Enter the name of the file you would like to view.");
             string fileName = Console.ReadLine();
+
+
         }
 
 
