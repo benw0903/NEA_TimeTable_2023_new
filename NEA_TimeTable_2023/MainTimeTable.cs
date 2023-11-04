@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Data.Common;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 
 namespace TimeTableApp_NEA
@@ -15,7 +16,7 @@ namespace TimeTableApp_NEA
 
         static void Main(string[] args)
         {
-            
+
             Console.WriteLine(@"
 ███╗   ███╗██╗   ██╗████████╗██╗███╗   ███╗███████╗
 ████╗ ████║╚██╗ ██╔╝╚══██╔══╝██║████╗ ████║██╔════╝
@@ -107,11 +108,11 @@ Press any key to enter.");
             if (option == "yes")
             {
                 Console.Clear();
-                ActivitiesAndTime(numColumns, numRows,filename);
+                ActivitiesAndTime(numColumns, numRows, filename);
             }
         }
 
-        static void ActivitiesAndTime(int numColumns, int numRows,string filename)
+        static void ActivitiesAndTime(int numColumns, int numRows, string filename)
         {
             Console.Clear();
 
@@ -290,7 +291,7 @@ Press any key to enter.");
 
             if (option3 == "change")
             {
-                BlockSelect(numRows,numColumns);
+                BlockSelect(numRows, numColumns);
             }
             if (option3 == "comment")
             {
@@ -302,7 +303,7 @@ Press any key to enter.");
             }
         }
 
-        static void BlockSelect(int numRows,int numColumns)
+        static void BlockSelect(int numRows, int numColumns)
         {
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
             int columns = int.Parse(Console.ReadLine());
@@ -312,7 +313,7 @@ Press any key to enter.");
             int rows = int.Parse(Console.ReadLine());
             Console.Clear();
 
-            while(columns<0 || columns>numColumns || rows < 0 || columns > numColumns)
+            while (columns < 0 || columns > numColumns || rows < 0 || columns > numColumns)
             {
                 Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
                 columns = int.Parse(Console.ReadLine());
@@ -322,12 +323,12 @@ Press any key to enter.");
                 rows = int.Parse(Console.ReadLine());
                 Console.Clear();
             }
-            
-            if(columns<0 || columns>numColumns || rows < 0 || columns > numColumns)
+
+            if (columns < 0 || columns > numColumns || rows < 0 || columns > numColumns)
             {
-                Console.WriteLine(@"column:"+columns+"" +
-@"rows:"+rows
-+"Are valid");
+                Console.WriteLine(@"column:" + columns + "" +
+@"rows:" + rows
++ "Are valid");
             }
 
             BlockDeleteAndReform(rows, columns);
@@ -570,7 +571,14 @@ If you are finished then you will be able to exit by entering (0) ");
 
             Console.WriteLine(@"The current Date and Time is: " + currentTime +
 ". Enter in the starting day of your week. (dd/mm/yyyy).");
-            string filename = Console.ReadLine();
+            string fileName = Console.ReadLine();
+
+            CheckDateFormat(fileName);
+            while (CheckDateFormat(fileName) != true)
+            {
+                Console.WriteLine("Make sure the enter the date in the correct format. (dd/mm/yyyy)");
+                fileName = Console.ReadLine();
+            }
 
             string currentTimeString = currentTime.ToString();
             // Make the current time into a string
@@ -580,7 +588,7 @@ If you are finished then you will be able to exit by entering (0) ");
             // Converting the current date into induvidual days months and years
 
 
-            string dayString = filename.Substring(0, 2), monthString = filename.Substring(3, 2), YearString = filename.Substring(6, 4);
+            string dayString = fileName.Substring(0, 2), monthString = fileName.Substring(3, 2), YearString = fileName.Substring(6, 4);
 
             int dayInt = int.Parse(dayString), monthInt = int.Parse(monthString), yearInt = int.Parse(YearString);
             // Converting the inputed date into induvidual days months and years
@@ -590,9 +598,9 @@ If you are finished then you will be able to exit by entering (0) ");
                 Console.Clear();
                 Console.WriteLine(@"The current Date and Time is: " + currentTime +
 ". Enter in a valid date (dd/mm/yyyy)."); ;
-                filename = Console.ReadLine();
+                fileName = Console.ReadLine();
 
-                dayString = filename.Substring(0, 2); monthString = filename.Substring(3, 2); YearString = filename.Substring(6, 4);
+                dayString = fileName.Substring(0, 2); monthString = fileName.Substring(3, 2); YearString = fileName.Substring(6, 4);
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
 
             }
@@ -602,11 +610,11 @@ If you are finished then you will be able to exit by entering (0) ");
             {
                 Console.Clear();
                 Console.WriteLine("The current Date and Time is: " + currentTime + ". Enter a valid date (dd/mm/yyyy):");
-                filename = Console.ReadLine();
+                fileName = Console.ReadLine();
 
-                dayString = filename.Substring(0, 2);
-                monthString = filename.Substring(3, 2);
-                YearString = filename.Substring(6, 4);
+                dayString = fileName.Substring(0, 2);
+                monthString = fileName.Substring(3, 2);
+                YearString = fileName.Substring(6, 4);
 
                 dayInt = int.Parse(dayString);
                 monthInt = int.Parse(monthString);
@@ -620,20 +628,30 @@ If you are finished then you will be able to exit by entering (0) ");
                 Console.Clear();
                 Console.WriteLine(@"The current Date and Time is: " + currentTime +
 ". Enter in a future or current date (dd/mm/yyyy).");
-                filename = Console.ReadLine();
+                fileName = Console.ReadLine();
 
-                dayString = filename.Substring(0, 2); monthString = filename.Substring(3, 2); YearString = filename.Substring(6, 4);
+                dayString = fileName.Substring(0, 2); monthString = fileName.Substring(3, 2); YearString = fileName.Substring(6, 4);
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
             }
 
-            Console.WriteLine(filename + " is a valid date.");
+            Console.WriteLine(fileName + " is a valid date.");
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
 
             CreateFile createFile = new CreateFile();
-            createFile.Create(filename);
+            createFile.Create(fileName);
 
-            SlotAmount(filename);
+            SlotAmount(fileName);
+        }
+
+        static bool CheckDateFormat(string fileName)
+        { 
+            string regexDate = @"^\d{2}/\d{2}/\d{4}$";
+            if (Regex.IsMatch(fileName, regexDate))
+            {
+                return true;
+            }
+            return false;
         }
 
         static void FinishTable(string filename)

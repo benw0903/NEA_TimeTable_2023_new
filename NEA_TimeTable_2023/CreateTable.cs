@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace TimeTableApp_NEA
 {
@@ -110,66 +111,33 @@ namespace TimeTableApp_NEA
                 {
                     if (hours[count1, count2] < 10)
                     {
-                        table[count1, count2] = @"
+
+                        string hour = hours[count1, count2].ToString().PadLeft(2, '0');
+                        string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
+                        string singleBlock = $@"
  ____________
-/"     + days[count1] + @"     \
-|" + "0" + hours[count1, count2] + ":" + minutes[count1, count2] + @"        |
-|" + activities[count1, count2] + @"          |
+/ { days[count1]}   \
+| { hour}:{ minute}       |
+| { activities[count1, count2]}           |
 |             |
 |             |
-|             | 
-\_____________/";
+|             |
+\_____________/ ";
+
+                        table[count1, count2] = singleBlock;
                     }
 
-                    if (hours[count1, count2] > 9)
+                    count2++;
+                    if (count2 % numRows == 0)
                     {
-                        table[count1, count2] = @"
- ____________
-/"     + days[count1] + @"     \
-|" + hours[count1, count2] + ":" + minutes[count1, count2] + @"         |
-|" + activities[count1, count2] + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
+                        count2 = 0;
+                        count1++;
                     }
-                }
 
-                if (hours[count1, count2] > 9)
-                {
-                    table[count1, count2] = @"
- ____________
-/"     + days[count1] + @"     \
-|" + hours[count1, count2] + ":" + minutes[count1, count2] + @"         |
-|" + activities[count1, count2] + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
                 }
-
-                else
-                {
-                    table[count1, count2] = @"
- ____________
-/"     + days[count1] + @"     \
-|" + "0" + hours[count1,count2] + ":" + minutes[count1, count2] + @"        |
-|" + activities[count1, count2] + @"          |
-|             |
-|             |
-|             | 
-\_____________/";
-                }
-
-                count2++;
-                if (count2 % numRows == 0)
-                {
-                    count2 = 0;
-                    count1++;
-                }
-
             }
         }
+
         public void PrintTable()
         {
             int row = 0;
