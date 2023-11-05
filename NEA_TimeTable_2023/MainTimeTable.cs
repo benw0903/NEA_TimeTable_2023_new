@@ -634,7 +634,7 @@ If you are finished then you will be able to exit by entering (0) ");
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
             }
 
-            Console.WriteLine(fileName + " is a valid date.");
+            Console.WriteLine(fileName + "  is a valid date.");
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
 
