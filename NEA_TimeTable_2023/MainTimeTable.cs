@@ -122,6 +122,10 @@ Press any key to enter.");
             ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
             int hoursValue, minutesValue;
             string activity;
+            int[,] hours; hours = new int[numRows, numColumns];
+            int[,] minutes; minutes = new int[numRows, numColumns];
+            string[,] activities; activities = new string[numRows, numRows];
+            
 
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
@@ -217,6 +221,8 @@ Press any key to enter.");
                 {
                     schedule.HoursValue(count1, count2, hoursValue);
                     schedule.MinutesValue(count1, count2, minutesValue);
+                    hours[count1, count2]=hoursValue;
+                    minutes[count1, count2]=minutesValue;
                 }
 
 
@@ -267,6 +273,7 @@ Press any key to enter.");
                 //Checks to see if the user is happy with the activity they choosen
 
                 schedule.ActivitiesInput(count1, count2, activity);
+                activities[count1, count2] = activity;
 
                 count2++;
                 if (count2 % numRows == 0)
@@ -304,7 +311,7 @@ Press any key to enter.");
 
             if (option3 == "change")
             {
-                BlockSelect(numRows, numColumns, filename,schedule);
+                BlockSelect(numRows, numColumns, filename,hours,minutes,activities,schedule);
             }
             if (option3 == "comment")
             {
@@ -316,7 +323,7 @@ Press any key to enter.");
             }
         }
 
-        static void BlockSelect(int numRows, int numColumns, string filename, ActivitiesAndTimes schedule)
+        static void BlockSelect(int numRows, int numColumns, string filename, int[,] hours,int[,] minutes, string[,] activities, ActivitiesAndTimes schedule)
         {
             Console.Clear();
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
@@ -348,7 +355,7 @@ Press any key to enter.");
             BlockDeleteAndReform(rows, columns, filename,schedule);
         }
 
-        static void BlockDeleteAndReform(int rows, int columns,string filename, ActivitiesAndTimes schedule)
+        static void BlockDeleteAndReform(int rows, int columns,string filename, int[,] hours, int[,] minutes, string[,] activities,ActivitiesAndTimes schedule)
         {
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int numRows = 0, numColumns = 0;
@@ -455,11 +462,11 @@ Press any key to enter.");
             Console.Clear();
             if (minutesValue > 9)
             {
-                Console.WriteLine(days[numColumns] + " " + hoursValue + ":" + minutesValue);
+                Console.WriteLine(days[numColumns+1] + " " + hoursValue + ":" + minutesValue);
             }
             if (minutesValue < 10)
             {
-                Console.WriteLine(days[numColumns] + " " + hoursValue + ":0" + minutesValue);
+                Console.WriteLine(days[numColumns+1] + " " + hoursValue + ":0" + minutesValue);
             }
             // makes sure the time is 1:02 instead of 1:2
 
