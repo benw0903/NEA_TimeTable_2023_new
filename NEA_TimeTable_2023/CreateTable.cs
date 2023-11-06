@@ -107,18 +107,21 @@ namespace TimeTableApp_NEA
 
             for (int i = 0; i < numColumns * numRows; i++)
             {
+
+
                 if (count2 == 0)
                 {
                     if (hours[count1, count2] < 10)
                     {
-
+                        string day = days[count1];
                         string hour = hours[count1, count2].ToString().PadLeft(2, '0');
                         string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
+
                         string singleBlock = $@"
- ____________
-/ { days[count1]}   \
+ _____________
+/ { day,-11} \
 | { hour}:{ minute}       |
-| { activities[count1, count2]}           |
+| {activities[count1, count2],-11} |
 |             |
 |             |
 |             |

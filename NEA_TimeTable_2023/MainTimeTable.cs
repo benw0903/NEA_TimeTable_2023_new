@@ -83,9 +83,11 @@ Press any key to enter.");
                 }
             } while (true);
 
-            Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities? " + "(Slot amount: " + numRows + ") " +
-"1.Yes" +
-"2.No");
+            Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?  
+1.Yes
+2.No");
+            Console.WriteLine("(Slot amount: " + numRows + ")");
+            Console.WriteLine("");
             string option = Console.ReadLine();
             option = option.ToLower();
 
@@ -96,10 +98,10 @@ Press any key to enter.");
                 Console.WriteLine("Hello user. How many slots for activities will you want?");
 
                 numRows = int.Parse(Console.ReadLine());
-                Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities? " + "(Slot amount: " + numRows + ") " +
-"1.Yes" +
-"2.No");
-
+                Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?  
+1.Yes
+2.No");
+                Console.WriteLine("(Slot amount: " + numRows + ")");
                 Console.WriteLine("");
 
                 option = Console.ReadLine();
@@ -289,9 +291,20 @@ Press any key to enter.");
             string option3 = Console.ReadLine();
             option3 = option3.ToLower();
 
+            while (option3 != "change" && option3 != "comment" && option3 != "finish")
+            {
+                Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
+1.Change
+2.Comment
+3.Finish");
+                option3 = Console.ReadLine();
+                option3 = option3.ToLower();
+                Console.Clear();
+            }
+
             if (option3 == "change")
             {
-                BlockSelect(numRows, numColumns);
+                BlockSelect(numRows, numColumns, filename,schedule);
             }
             if (option3 == "comment")
             {
@@ -303,8 +316,9 @@ Press any key to enter.");
             }
         }
 
-        static void BlockSelect(int numRows, int numColumns)
+        static void BlockSelect(int numRows, int numColumns, string filename, ActivitiesAndTimes schedule)
         {
+            Console.Clear();
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
             int columns = int.Parse(Console.ReadLine());
             Console.Clear();
@@ -331,46 +345,47 @@ Press any key to enter.");
 + "Are valid");
             }
 
-            BlockDeleteAndReform(rows, columns);
+            BlockDeleteAndReform(rows, columns, filename,schedule);
         }
 
-        static void BlockDeleteAndReform(int Rows, int Columns)
+        static void BlockDeleteAndReform(int rows, int columns,string filename, ActivitiesAndTimes schedule)
         {
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int numRows = 0, numColumns = 0;
             int hoursValue, minutesValue;
-            ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
             string activity;
-
+            
+            Console.WriteLine("Day:"+ days[columns-1]);
             Console.WriteLine("Enter the hour the activity will take place. 00-23");
-            do
-            {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out hoursValue))
-                {
-                    schedule.HoursValue(numColumns, numRows, hoursValue);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Please enter a valid integer.");
-                }
-            } while (true);
 
-            Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-            do
+            while (true)
             {
                 string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out minutesValue))
+                if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
                 {
-                    schedule.MinutesValue(numColumns, numRows, minutesValue);
+                    schedule.HoursValue(columns, rows, hoursValue);
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer.");
+                    Console.WriteLine("Please enter a valid integer. 00-23");
                 }
-            } while (true);
+            }
+            
+            Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
+            while (true) 
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out minutesValue) && minutesValue >= 0 && minutesValue <= 59)
+                {
+                    schedule.MinutesValue(columns, rows, minutesValue);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer. 00-59");
+                }
+            }
 
 
 
@@ -380,38 +395,45 @@ Press any key to enter.");
             string option = Console.ReadLine();
             option = option.ToLower();
 
-            while (option != "yes" || minutesValue >= 60 || minutesValue > 0 || hoursValue >= 24 || hoursValue < 0)
+            while (option != "yes" || minutesValue >= 60 || minutesValue < 0 || hoursValue >= 24 || hoursValue < 0)
             {
                 Console.Clear();
 
-                Console.WriteLine(days[numColumns]);
+                Console.WriteLine(days[columns]);
                 Console.WriteLine("Enter the hour the time will take place. 00-23");
-                do
+
+                bool validInput = false;
+                while (!validInput)
                 {
                     string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out hoursValue))
+                    if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
                     {
-                        break;
+                        schedule.HoursValue(columns, rows, hoursValue);
+                        validInput = true; 
                     }
                     else
                     {
-                        Console.WriteLine("Please enter a valid integer.");
+                        Console.WriteLine("Please enter a valid integer. 00-23");
                     }
-                } while (true);
+                }
 
                 Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-                do
+
+                bool validInput2 = false;
+                while (!validInput2)
                 {
                     string userInput = Console.ReadLine();
                     if (int.TryParse(userInput, out minutesValue))
                     {
-                        break;
+                        schedule.HoursValue(columns, rows, hoursValue);
+                        validInput2 = true;
                     }
                     else
                     {
-                        Console.WriteLine("Please enter a valid integer.");
+                        Console.WriteLine("Please enter a valid integer.00-59");
                     }
-                } while (true);
+                } 
+
                 Console.Clear();
 
                 Console.WriteLine(@"Are you happy with the times you have picked? 
@@ -424,8 +446,8 @@ Press any key to enter.");
 
             if (hoursValue < 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue >= 0)
             {
-                schedule.HoursValue(numColumns, numRows, hoursValue);
-                schedule.MinutesValue(numColumns, numRows, minutesValue);
+                schedule.HoursValue(columns, rows, hoursValue);
+                schedule.MinutesValue(columns, rows, minutesValue);
             }
 
 
@@ -476,34 +498,40 @@ Press any key to enter.");
             //Checks to see if the user is happy with the activity they choosen
 
             Console.Clear();
-            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, rows-1, columns-1);
             schedule.PrintTable();
             //prints table
 
             Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
 1.Change
-2.Complete");
+2.Comment
+3.Finish");
 
             string option3 = Console.ReadLine();
             option3 = option3.ToLower();
             Console.Clear();
 
-            while (option3 != "change" || option3 != "complete")
+            while (option3 != "change" || option3 != "comment" || option3 != "finish")
             {
                 Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.
 1.Change
-2.Complete");
+2.Comment
+3.Finish");
                 option3 = Console.ReadLine();
                 option3 = option3.ToLower();
                 Console.Clear();
             }
             if (option3 == "change")
             {
-                BlockDeleteAndReform(Rows, Columns);
+                BlockDeleteAndReform(rows, columns, filename, schedule);
             }
-            if (option3 != "complete")
+            if(option3 == "comment")
             {
                 Comments();
+            }
+            if (option3 != "finish")
+            {
+                FinishTable(filename);
             }
         }
 
