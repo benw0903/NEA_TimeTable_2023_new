@@ -122,9 +122,9 @@ Press any key to enter.");
             ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
             int hoursValue, minutesValue;
             string activity;
-            int[,] hours; hours = new int[numRows, numColumns];
-            int[,] minutes; minutes = new int[numRows, numColumns];
-            string[,] activities; activities = new string[numRows, numRows];
+            int[,] hours = new int[numColumns, numRows];
+            int[,] minutes = new int[numColumns, numRows];
+            string[,] activities = new string[numColumns, numRows];
             
 
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
@@ -311,7 +311,7 @@ Press any key to enter.");
 
             if (option3 == "change")
             {
-                BlockSelect(numRows, numColumns, filename,hours,minutes,activities,schedule);
+                BlockSelect(numRows, numColumns, filename,hours,minutes,activities);
             }
             if (option3 == "comment")
             {
@@ -323,7 +323,7 @@ Press any key to enter.");
             }
         }
 
-        static void BlockSelect(int numRows, int numColumns, string filename, int[,] hours,int[,] minutes, string[,] activities, ActivitiesAndTimes schedule)
+        static void BlockSelect(int numRows, int numColumns, string filename, int[,] hours,int[,] minutes, string[,] activities)
         {
             Console.Clear();
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
@@ -352,13 +352,14 @@ Press any key to enter.");
 + "Are valid");
             }
 
-            BlockDeleteAndReform(rows, columns, filename,schedule);
+            BlockDeleteAndReform(numRows,numColumns,rows, columns, filename,hours,minutes,activities);
         }
 
-        static void BlockDeleteAndReform(int rows, int columns,string filename, int[,] hours, int[,] minutes, string[,] activities,ActivitiesAndTimes schedule)
+        static void BlockDeleteAndReform(int numRows, int numColumns,int rows, int columns,string filename, int[,] hours, int[,] minutes, string[,] activities)
         {
+            ActivitiesAndTimes schedule = new ActivitiesAndTimes(rows, columns);
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-            int numRows = 0, numColumns = 0;
+            numRows = 0; numColumns = 0;
             int hoursValue, minutesValue;
             string activity;
             
@@ -462,11 +463,11 @@ Press any key to enter.");
             Console.Clear();
             if (minutesValue > 9)
             {
-                Console.WriteLine(days[numColumns+1] + " " + hoursValue + ":" + minutesValue);
+                Console.WriteLine(days[numColumns] + " " + hoursValue + ":" + minutesValue);
             }
             if (minutesValue < 10)
             {
-                Console.WriteLine(days[numColumns+1] + " " + hoursValue + ":0" + minutesValue);
+                Console.WriteLine(days[numColumns] + " " + hoursValue + ":0" + minutesValue);
             }
             // makes sure the time is 1:02 instead of 1:2
 
@@ -530,7 +531,7 @@ Press any key to enter.");
             }
             if (option3 == "change")
             {
-                BlockDeleteAndReform(rows, columns, filename, schedule);
+                BlockDeleteAndReform(numRows,numColumns,rows,columns,filename,hours,minutes,activities);
             }
             if(option3 == "comment")
             {

@@ -50,7 +50,7 @@ namespace TimeTableApp_NEA
         public string[,] activities;
         public int[,] hours;
         public int[,] minutes;
-        public string[,] table;
+        public string table;
 
 
         public ActivitiesAndTimes(int numRows, int numColumns)
@@ -101,13 +101,13 @@ namespace TimeTableApp_NEA
 
         public void block(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns)
         {
-            table = new string[numColumns, numRows];
+            int boxLength= 15;
+            table = "";
             int count1 = 0;
             int count2 = 0;
-
             for (int i = 0; i < numColumns * numRows; i++)
             {
-
+                
 
                 if (count2 == 0)
                 {
@@ -118,16 +118,16 @@ namespace TimeTableApp_NEA
                         string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
 
                         string singleBlock = $@"
- _____________
-/ { day,-11} \
+______________
+| { day,-11} |
 | { hour}:{ minute}       |
 | {activities[count1, count2],-11} |
 |             |
 |             |
 |             |
-\_____________/ ";
+|_____________| ";
 
-                        table[count1, count2] = singleBlock;
+                        table += singleBlock.PadRight(boxLength);
                     }
 
                     count2++;
@@ -139,17 +139,15 @@ namespace TimeTableApp_NEA
 
                 }
             }
+
+            
+            // Print the table
+
         }
 
         public void PrintTable()
         {
-            int row = 0;
-
-            for (int numColumns = 0; numColumns < table.GetLength(1); numColumns++)
-            {
-                Console.Write(table[row, numColumns]+table[row + 1, numColumns]+ table[row + 2, numColumns]+ table[row + 3, numColumns]+table[row + 4, numColumns]+ table[row + 5, numColumns]+ table[row + 6, numColumns]);
-
-            }
+            Console.Write(table);   
         }
 
     }
