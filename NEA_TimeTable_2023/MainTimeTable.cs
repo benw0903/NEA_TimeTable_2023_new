@@ -374,34 +374,34 @@ Press any key to enter.");
             Console.WriteLine("Day:"+ days[columns-1]);
             Console.WriteLine("Enter the hour the activity will take place. 00-23");
 
-            while (true)
+            do
             {
                 string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
+                if (int.TryParse(userInput, out hoursValue))
                 {
-                    schedule.HoursValue(columns, rows, hoursValue);
+                    schedule.HoursValue(numColumns, numRows, hoursValue);
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer. 00-23");
+                    Console.WriteLine("Please enter a valid integer.");
                 }
-            }
-            
+            } while (true);
+
             Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-            while (true) 
+            do
             {
                 string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out minutesValue) && minutesValue >= 0 && minutesValue <= 59)
+                if (int.TryParse(userInput, out minutesValue))
                 {
-                    schedule.MinutesValue(columns, rows, minutesValue);
+                    schedule.MinutesValue(numColumns, numRows, minutesValue);
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer. 00-59");
+                    Console.WriteLine("Please enter a valid integer.");
                 }
-            }
+            } while (true);
 
 
 

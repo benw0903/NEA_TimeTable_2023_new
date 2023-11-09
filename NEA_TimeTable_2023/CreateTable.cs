@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace TimeTableApp_NEA
 {
@@ -29,6 +30,10 @@ namespace TimeTableApp_NEA
                 Console.Clear();
                 Console.WriteLine("Error creating or opening the file: " + error.Message);
             }
+        }
+        public void SaveFile()
+        {
+
         }
     }
 
