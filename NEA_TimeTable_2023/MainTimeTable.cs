@@ -399,7 +399,7 @@ Press any key to enter.");
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer.");
+                    Console.WriteLine("Please enter a valid integer. ");
                 }
             } while (true);
 
