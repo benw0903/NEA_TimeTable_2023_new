@@ -44,9 +44,10 @@ Press any key to enter.");
             while (option != "view" || option != "create")
             {
                 Console.Clear();
-                Console.WriteLine(@"Would you like to view or create a table today?
-1.View
-2.Create");
+                Console.WriteLine("Would you like to view or create a table today?");
+                Console.WriteLine("1.View");
+                Console.WriteLine("2.Create");
+
                 option = Console.ReadLine();
                 option = option.ToLower();
 
@@ -83,9 +84,10 @@ Press any key to enter.");
                 }
             } while (true);
 
-            Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?  
-1.Yes
-2.No");
+            Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?");
+            Console.WriteLine("1.Yes");
+            Console.WriteLine("2.No");
+
             Console.WriteLine("(Slot amount: " + numRows + ")");
             Console.WriteLine("");
             string option = Console.ReadLine();
@@ -98,9 +100,10 @@ Press any key to enter.");
                 Console.WriteLine("Hello user. How many slots for activities will you want?");
 
                 numRows = int.Parse(Console.ReadLine());
-                Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?  
-1.Yes
-2.No");
+                Console.WriteLine(@"Are you happy with the amount of slots you have chosen for you activities?");
+                Console.WriteLine("1.Yes");
+                Console.WriteLine("2.No");
+
                 Console.WriteLine("(Slot amount: " + numRows + ")");
                 Console.WriteLine("");
 
@@ -169,9 +172,10 @@ Press any key to enter.");
 
 
 
-                Console.WriteLine(@"Are you happy with the times you have picked? 
-1.Yes
-2.No");
+                Console.WriteLine(@"Are you happy with the times you have picked?");
+                Console.WriteLine("1.Yes");
+                Console.WriteLine("2.No");
+
                 string option = Console.ReadLine();
                 option = option.ToLower();
 
@@ -209,9 +213,10 @@ Press any key to enter.");
                     } while (true);
                     Console.Clear();
 
-                    Console.WriteLine(@"Are you happy with the times you have picked? 
-1.Yes
-2.No");
+                    Console.WriteLine(@"Are you happy with the times you have picked?");
+                    Console.WriteLine("1.Yes");
+                    Console.WriteLine("2.No");
+
                     option = Console.ReadLine();
                 }
                 // Makes sure the Hours and Minutes are valid
@@ -241,9 +246,10 @@ Press any key to enter.");
                 Console.WriteLine("Enter the activity for the time you have chosen.");
                 activity = Console.ReadLine();
 
-                Console.WriteLine(@"Are you happy with the activity you have picked?
-1.Yes
-2.No");
+                Console.WriteLine(@"Are you happy with the activity you have picked?");
+                Console.WriteLine("1.Yes");
+                Console.WriteLine("2.No");
+
                 string option2 = Console.ReadLine();
                 option2 = option2.ToLower();
 
@@ -265,12 +271,13 @@ Press any key to enter.");
                     activity = Console.ReadLine();
                     Console.Clear();
 
-                    Console.WriteLine(@"Are you happy with the times you have picked?
-1.Yes
-2.No");
+                    Console.WriteLine(@"Are you happy with the times you have picked?");
+                    Console.WriteLine("1.Yes");
+                    Console.WriteLine("2.No");
+
                     option2 = Console.ReadLine();
                 }
-                //Checks to see if the user is happy with the activity they choosen
+                //Checks to see if the user is happy with the activity they chosen
 
                 schedule.ActivitiesInput(count1, count2, activity);
                 activities[count1, count2] = activity;
@@ -291,10 +298,11 @@ Press any key to enter.");
             //prints table
 
             Console.WriteLine("");
-            Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.
-1.Change
-2.Comment
-3.Finish");
+            Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.");
+            Console.WriteLine("1.Change");
+            Console.WriteLine("2.Comment");
+            Console.WriteLine("3.Finish");
+
             string option3 = Console.ReadLine();
             option3 = option3.ToLower();
 
@@ -397,9 +405,11 @@ Press any key to enter.");
 
 
 
-            Console.WriteLine(@"Are you happy with the times you have picked? 
-1.Yes
-2.No");
+            Console.WriteLine(@"Are you happy with the times you have picked?");
+            Console.WriteLine("1.Yes");
+            Console.WriteLine("2.No");
+
+
             string option = Console.ReadLine();
             option = option.ToLower();
 

@@ -118,7 +118,7 @@ namespace TimeTableApp_NEA
                         string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
 
                         string singleBlock = $@"
-______________
+_______________
 | { day,-11} |
 | { hour}:{ minute}       |
 | {activities[count1, count2],-11} |
@@ -144,6 +144,8 @@ ______________
             // Print the table
 
         }
+
+        
 
         public void PrintTable()
         {
