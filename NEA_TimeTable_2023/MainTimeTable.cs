@@ -639,19 +639,6 @@ If you are finished then you will be able to exit by entering (0) ");
             int dayInt = int.Parse(dayString), monthInt = int.Parse(monthString), yearInt = int.Parse(YearString);
             // Converting the inputed date into induvidual days months and years
 
-            while (dayInt > 31 && monthInt > 12 || dayInt < 1 && monthInt < 1)
-            {
-                Console.Clear();
-                Console.WriteLine(@"The current Date and Time is: " + currentTime +
-". Enter in a valid date (dd/mm/yyyy)."); ;
-                fileName = Console.ReadLine();
-
-                dayString = fileName.Substring(0, 2); monthString = fileName.Substring(3, 2); YearString = fileName.Substring(6, 4);
-                dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
-
-            }
-            //Checks the max month and max days and lowest days and lowest month int
-
             while ((dayInt > 31 && (monthInt == 1 || monthInt == 3 || monthInt == 5 || monthInt == 7 || monthInt == 8 || monthInt == 10 || monthInt == 12)) || (dayInt > 30 && (monthInt == 4 || monthInt == 6 || monthInt == 9 || monthInt == 11)) || (dayInt > 28 && monthInt == 2))
             {
                 Console.Clear();
@@ -667,6 +654,19 @@ If you are finished then you will be able to exit by entering (0) ");
                 yearInt = int.Parse(YearString);
             }
             //Checks to see if the date enterd is correct from january-december
+
+            while (dayInt > 31 && monthInt > 12 || dayInt < 1 && monthInt < 1)
+            {
+                Console.Clear();
+                Console.WriteLine(@"The current Date and Time is: " + currentTime +
+". Enter in a valid date (dd/mm/yyyy)."); ;
+                fileName = Console.ReadLine();
+
+                dayString = fileName.Substring(0, 2); monthString = fileName.Substring(3, 2); YearString = fileName.Substring(6, 4);
+                dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
+
+            }
+            //Checks the max month and max days and lowest days and lowest month int
 
 
             while (currentDayInt - dayInt >= 0 && currentMonthInt - monthInt >= 0 && currentYearInt - yearInt >= 0)
