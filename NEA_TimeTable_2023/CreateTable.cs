@@ -6,56 +6,17 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace TimeTableApp_NEA
 {
-    
-    class CreateFile
-    {
-        public void Create(string fileName)
-        {
-            try
-            {
-                string fileExtension = ".txt";
-                string filePath = fileName + fileExtension;
-                FileStream fileStream = File.Open(filePath, FileMode.Create);
-
-
-                Console.Clear();
-                Console.WriteLine("File " + filePath + " created or opened successfully.");
-            }
-            catch (Exception error)
-            {
-                Console.Clear();
-                Console.WriteLine("Error creating or opening the file: " + error.Message);
-            }
-        }
-        public void SaveFile()
-        {
-
-        }
-    }
-
-    class CreateTable
-    {
-        public string[,] TableRowAndColumns { get; }
-
-        public CreateTable(int rows, int columns)
-        {
-            TableRowAndColumns = new string[columns, rows];
-        }
-
-
-    }
-
     class ActivitiesAndTimes
     {
+        public string fileName;
         public string[] days;
         public string[,] activities;
         public int[,] hours;
         public int[,] minutes;
-        public string table;
+        public string []table;
 
 
         public ActivitiesAndTimes(int numRows, int numColumns)
@@ -65,6 +26,7 @@ namespace TimeTableApp_NEA
             hours = new int[numColumns, numRows];
             minutes = new int[numColumns, numRows];
             days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            table = new string[numRows * 5];
 
         }
         public void HoursValue(int numRows, int columns, int value)
@@ -106,13 +68,13 @@ namespace TimeTableApp_NEA
 
         public void block(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns)
         {
-            int boxLength= 15;
-            table = "";
+            numColumns = 7;
+            int boxLength = 15;
             int count1 = 0;
             int count2 = 0;
-            for (int i = 0; i < numColumns * numRows; i++)
+            for (int i = 0; i < numRows; i++)
             {
-                
+
 
                 if (count2 == 0)
                 {
@@ -121,18 +83,71 @@ namespace TimeTableApp_NEA
                         string day = days[count1];
                         string hour = hours[count1, count2].ToString().PadLeft(2, '0');
                         string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
+                        string activity = activities[count1, count2];
+                        string line = ""; string line1 = ""; string line2 = "" ; string line3 = ""; string line4 = "";
 
-                        string singleBlock = $@"
-_______________
-| { day,-11} |
-| { hour}:{ minute}       |
-| {activities[count1, count2],-11} |
-|             |
-|             |
-|             |
-|_____________| ";
+                        StringBuilder reapeatLines = new StringBuilder();
+                        //puts string together
+                        
+                        for (int a = 0; a < numColumns; a++)
+                        {
+                            line = $@"_______________ ";
+                            reapeatLines.Append(line);
+                        }
+                        line= reapeatLines.ToString();
+                        reapeatLines.Clear();
+                        for (int b = 0; b < numColumns; b++)
+                        {
+                            line1 = $@"| {day,-11} | ";
+                            reapeatLines.Append(line1);
+                            count2++;
+                            if (count2 % numRows == 0)
+                            {
+                                count2 = 0;
+                            }
+                        }
+                        line1 = reapeatLines.ToString();
+                        reapeatLines.Clear();
+                        for (int c = 0; c < numColumns; c++)
+                        {
+                            line2 = $@"| {hour}:{minute}       | ";
+                            reapeatLines.Append(line2);
+                            count2++;
+                            if (count2 % numRows == 0)
+                            {
+                                count2 = 0;
+                            }
 
-                        table += singleBlock.PadRight(boxLength);
+                        }
+                        line2 = reapeatLines.ToString();
+                        reapeatLines.Clear();
+                        for (int d = 0; d < numColumns; d++)
+                        {
+                            line3 = $@"| {activity,-11} | ";
+                            reapeatLines.Append(line3);
+                            count2++;
+                            if (count2 % numRows == 0)
+                            {
+                                count2 = 0;
+                            }
+                        }
+                        line3 = reapeatLines.ToString();
+                        reapeatLines.Clear();
+                        for (int f = 0; f < numColumns; f++)
+                        {
+                            line4 = $@"|_____________| ";
+                            reapeatLines.Append(line4);                        
+                        }
+                        line4 = reapeatLines.ToString();
+                        reapeatLines.Clear();
+                        //prints the boxes horizontal instead of vertical
+
+                        table[0] = line;
+                        table[1] = line1;
+                        table[2] = line2;
+                        table[3] = line3;
+                        table[4] = line4;
+
                     }
 
                     count2++;
@@ -145,19 +160,56 @@ _______________
                 }
             }
 
-            
+
             // Print the table
 
         }
 
-        
-
-        public void PrintTable()
+        public void PrintTable(int numRows)
         {
-            Console.Write(table);   
+            for(int i = 0; i < numRows; i++)
+            {
+                Console.WriteLine(table[0]);
+                Console.WriteLine(table[1]);
+                Console.WriteLine(table[2]);
+                Console.WriteLine(table[3]);
+                Console.WriteLine(table[4]);
+                Console.WriteLine("");
+            }
+            
+
+
+
+        }
+        public void CreateFile(string fileName)
+        {
+            try
+            {
+                string fileExtension = ".txt";
+                string filePath = fileName + fileExtension;
+                FileStream fs = File.Open(filePath, FileMode.Create);
+
+                Console.Clear();
+                Console.WriteLine("File " + filePath + " created or opened successfully.");
+
+                using (StreamWriter sw = new StreamWriter(filePath, true))
+                {
+                    sw.WriteLine(table[0]);
+                    sw.WriteLine(table[1]);
+                    sw.WriteLine(table[2]);
+                    sw.WriteLine(table[3]);
+                    sw.WriteLine(table[4]);
+                    sw.WriteLine("");
+                }
+            }
+            catch (Exception error)
+            {
+                Console.Clear();
+                Console.WriteLine("Error creating or opening the file: " + error.Message);
+            }
+
+
         }
 
     }
-
-    
 }
