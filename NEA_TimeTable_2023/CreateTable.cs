@@ -70,85 +70,86 @@ namespace TimeTableApp_NEA
         {
             numColumns = 7;
             int boxLength = 15;
-            int count1 = 0;
             int count2 = 0;
+            
             for (int i = 0; i < numRows; i++)
             {
+                int count1 = 0;
+                StringBuilder repeatLines = new StringBuilder();
+                //puts string together
 
-
-                if (count2 == 0)
+                for (int j = 0; j < numColumns; j++)
                 {
-                    if (hours[count1, count2] < 10)
+                    
+                    string activity = activities[count1, count2];
+                    string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
+
+
+                    //puts string together
+
+                    for (int a = 0; a < numColumns; a++)
                     {
-                        string day = days[count1];
-                        string hour = hours[count1, count2].ToString().PadLeft(2, '0');
-                        string minute = minutes[count1, count2].ToString().PadLeft(2, '0');
-                        string activity = activities[count1, count2];
-                        string line = ""; string line1 = ""; string line2 = "" ; string line3 = ""; string line4 = "";
+                        line = $@"_______________ ";
+                        repeatLines.Append(line);
+                    }
+                    line = repeatLines.ToString();
+                    repeatLines.Clear();
 
-                        StringBuilder reapeatLines = new StringBuilder();
-                        //puts string together
-                        
-                        for (int a = 0; a < numColumns; a++)
+                    for (int b = 0; b < numColumns; b++)
+                    {
+                        line1 = $@"| {days[b],-11} | ";
+                        repeatLines.Append(line1);
+                        count2++;
+                        if (count2 % numRows == 0)
                         {
-                            line = $@"_______________ ";
-                            reapeatLines.Append(line);
+                            count2 = 0;
                         }
-                        line= reapeatLines.ToString();
-                        reapeatLines.Clear();
-                        for (int b = 0; b < numColumns; b++)
-                        {
-                            line1 = $@"| {day,-11} | ";
-                            reapeatLines.Append(line1);
-                            count2++;
-                            if (count2 % numRows == 0)
-                            {
-                                count2 = 0;
-                            }
-                        }
-                        line1 = reapeatLines.ToString();
-                        reapeatLines.Clear();
-                        for (int c = 0; c < numColumns; c++)
-                        {
-                            line2 = $@"| {hour}:{minute}       | ";
-                            reapeatLines.Append(line2);
-                            count2++;
-                            if (count2 % numRows == 0)
-                            {
-                                count2 = 0;
-                            }
+                    }
+                    line1 = repeatLines.ToString();
+                    repeatLines.Clear();
 
-                        }
-                        line2 = reapeatLines.ToString();
-                        reapeatLines.Clear();
-                        for (int d = 0; d < numColumns; d++)
+                    for (int c = 0; c < numColumns; c++)
+                    {
+                        line2 = $@"| {hours[c, count2].ToString().PadLeft(2, '0')}:{minutes[c, count2].ToString().PadLeft(2, '0')}       | ";
+                        repeatLines.Append(line2);
+                        count2++;
+                        if (count2 % numRows == 0)
                         {
-                            line3 = $@"| {activity,-11} | ";
-                            reapeatLines.Append(line3);
-                            count2++;
-                            if (count2 % numRows == 0)
-                            {
-                                count2 = 0;
-                            }
+                            count2 = 0;
                         }
-                        line3 = reapeatLines.ToString();
-                        reapeatLines.Clear();
-                        for (int f = 0; f < numColumns; f++)
-                        {
-                            line4 = $@"|_____________| ";
-                            reapeatLines.Append(line4);                        
-                        }
-                        line4 = reapeatLines.ToString();
-                        reapeatLines.Clear();
-                        //prints the boxes horizontal instead of vertical
-
-                        table[0] = line;
-                        table[1] = line1;
-                        table[2] = line2;
-                        table[3] = line3;
-                        table[4] = line4;
 
                     }
+                    line2 = repeatLines.ToString();
+                    repeatLines.Clear();
+
+                    for (int d = 0; d < numColumns; d++)
+                    {
+                        line3 = $@"| {activities[d, count2],-11} | ";
+                        repeatLines.Append(line3);
+                        count2++;
+                        if (count2 % numRows == 0)
+                        {
+                            count2 = 0;
+                        }
+                    }
+                    line3 = repeatLines.ToString();
+                    repeatLines.Clear();
+
+                    for (int f = 0; f < numColumns; f++)
+                    {
+                        line4 = $@"|_____________| ";
+                        repeatLines.Append(line4);
+                    }
+                    line4 = repeatLines.ToString();
+                    repeatLines.Clear();
+                    //prints the boxes horizontal instead of vertical
+
+                    table[0] = line;
+                    table[1] = line1;
+                    table[2] = line2;
+                    table[3] = line3;
+                    table[4] = line4;
+
 
                     count2++;
                     if (count2 % numRows == 0)
@@ -156,6 +157,7 @@ namespace TimeTableApp_NEA
                         count2 = 0;
                         count1++;
                     }
+                
 
                 }
             }
