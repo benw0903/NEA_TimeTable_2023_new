@@ -269,6 +269,7 @@ namespace TimeTableApp_NEA
             Console.Clear();
             schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
             schedule.PrintTable(numRows);
+            
             //prints table
 
             Console.WriteLine("");

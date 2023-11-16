@@ -11,7 +11,7 @@ namespace TimeTableApp_NEA
 {
     class ActivitiesAndTimes
     {
-        public string fileName;
+        public string filePath;
         public string[] days;
         public string[,] activities;
         public int[,] hours;
@@ -26,7 +26,7 @@ namespace TimeTableApp_NEA
             hours = new int[numColumns, numRows];
             minutes = new int[numColumns, numRows];
             days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-            table = new string[numRows * 5];
+            table = new string[numRows*5];
 
         }
         public void HoursValue(int numRows, int columns, int value)
@@ -69,7 +69,7 @@ namespace TimeTableApp_NEA
         public void block(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns)
         {
             numColumns = 7;
-            int boxLength = 15;
+            
             int count2 = 0;
             
             for (int i = 0; i < numRows; i++)
@@ -80,8 +80,6 @@ namespace TimeTableApp_NEA
 
                 for (int j = 0; j < numColumns; j++)
                 {
-                    
-                    string activity = activities[count1, count2];
                     string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
 
 
@@ -117,7 +115,6 @@ namespace TimeTableApp_NEA
                         {
                             count2 = 0;
                         }
-
                     }
                     line2 = repeatLines.ToString();
                     repeatLines.Clear();
@@ -143,6 +140,7 @@ namespace TimeTableApp_NEA
                     line4 = repeatLines.ToString();
                     repeatLines.Clear();
                     //prints the boxes horizontal instead of vertical
+                    
 
                     table[0] = line;
                     table[1] = line1;
@@ -169,14 +167,16 @@ namespace TimeTableApp_NEA
 
         public void PrintTable(int numRows)
         {
-            for(int i = 0; i < numRows; i++)
+            int count1 = 0;
+            for (int i = 0; i < numRows; i++)
             {
-                Console.WriteLine(table[0]);
-                Console.WriteLine(table[1]);
-                Console.WriteLine(table[2]);
-                Console.WriteLine(table[3]);
-                Console.WriteLine(table[4]);
+                Console.WriteLine(table[count1]);
+                Console.WriteLine(table[count1+1]);
+                Console.WriteLine(table[count1+2]);
+                Console.WriteLine(table[count1+3]);
+                Console.WriteLine(table[count1+4]);
                 Console.WriteLine("");
+                count1 ++;
             }
             
 
@@ -188,7 +188,7 @@ namespace TimeTableApp_NEA
             try
             {
                 string fileExtension = ".txt";
-                string filePath = fileName + fileExtension;
+                filePath = fileName + fileExtension;
                 FileStream fs = File.Open(filePath, FileMode.Create);
 
                 Console.Clear();
