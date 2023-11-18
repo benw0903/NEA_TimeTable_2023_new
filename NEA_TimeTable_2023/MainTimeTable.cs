@@ -82,7 +82,7 @@ namespace TimeTableApp_NEA
                 Console.WriteLine("Are you happy with the amount of slots you have chosen for you activities?");
                 Console.WriteLine("1.Yes");
                 Console.WriteLine("2.No");
-                Console.WriteLine($"(Slot amount: {numRows}");
+                Console.WriteLine($"(Slot amount: {numRows})");
 
                 option = Console.ReadLine();
             }
@@ -246,8 +246,8 @@ namespace TimeTableApp_NEA
                     Console.Clear();
 
                     Console.WriteLine("Are you happy with the times you have picked?");
-                    Console.WriteLine("1. Yes");
-                    Console.WriteLine("2. No");
+                    Console.WriteLine("1.Yes");
+                    Console.WriteLine("2.No");
                     option2 = Console.ReadLine();
                 }
                 //Checks to see if the user is happy with the activity they choosen
@@ -264,12 +264,11 @@ namespace TimeTableApp_NEA
 
             }
             //loops for time and activities 
-            
+
             schedule.CreateFile(fileName);
             Console.Clear();
             schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
             schedule.PrintTable(numRows);
-            
             //prints table
 
             Console.WriteLine("");
@@ -475,8 +474,11 @@ namespace TimeTableApp_NEA
             //Checks to see if the user is happy with the activity they choosen
 
             Console.Clear();
-            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, rows-1, columns-1);
-            schedule.PrintTable(numRows);
+            for (int i = 0; i < numRows; i++)
+            {
+                schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+                schedule.PrintTable(numRows);
+            }
             //prints table
 
             Console.WriteLine("Would you like to make more changes or are the you happy with the timetable.");

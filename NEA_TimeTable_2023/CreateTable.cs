@@ -26,7 +26,7 @@ namespace TimeTableApp_NEA
             hours = new int[numColumns, numRows];
             minutes = new int[numColumns, numRows];
             days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-            table = new string[numRows*5];
+            table = new string[100*5];
 
         }
         public void HoursValue(int numRows, int columns, int value)
@@ -72,116 +72,104 @@ namespace TimeTableApp_NEA
             
             int count2 = 0;
             
-            for (int i = 0; i < numRows; i++)
+            
+            int newRow = 0;
+            int count1 = 0;
+            StringBuilder repeatLines = new StringBuilder();
+            //puts string together
+
+            for (int j = 0; j < numColumns; j++)
             {
-                int count1 = 0;
-                StringBuilder repeatLines = new StringBuilder();
+                string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
+
+
                 //puts string together
 
-                for (int j = 0; j < numColumns; j++)
+                for (int a = 0; a < numColumns; a++)
                 {
-                    string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
+                    line = $@"_______________ ";
+                    repeatLines.Append(line);
+                }
+                line = repeatLines.ToString();
+                repeatLines.Clear();
 
-
-                    //puts string together
-
-                    for (int a = 0; a < numColumns; a++)
-                    {
-                        line = $@"_______________ ";
-                        repeatLines.Append(line);
-                    }
-                    line = repeatLines.ToString();
-                    repeatLines.Clear();
-
-                    for (int b = 0; b < numColumns; b++)
-                    {
-                        line1 = $@"| {days[b],-11} | ";
-                        repeatLines.Append(line1);
-                        count2++;
-                        if (count2 % numRows == 0)
-                        {
-                            count2 = 0;
-                        }
-                    }
-                    line1 = repeatLines.ToString();
-                    repeatLines.Clear();
-
-                    for (int c = 0; c < numColumns; c++)
-                    {
-                        line2 = $@"| {hours[c, count2].ToString().PadLeft(2, '0')}:{minutes[c, count2].ToString().PadLeft(2, '0')}       | ";
-                        repeatLines.Append(line2);
-                        count2++;
-                        if (count2 % numRows == 0)
-                        {
-                            count2 = 0;
-                        }
-                    }
-                    line2 = repeatLines.ToString();
-                    repeatLines.Clear();
-
-                    for (int d = 0; d < numColumns; d++)
-                    {
-                        line3 = $@"| {activities[d, count2],-11} | ";
-                        repeatLines.Append(line3);
-                        count2++;
-                        if (count2 % numRows == 0)
-                        {
-                            count2 = 0;
-                        }
-                    }
-                    line3 = repeatLines.ToString();
-                    repeatLines.Clear();
-
-                    for (int f = 0; f < numColumns; f++)
-                    {
-                        line4 = $@"|_____________| ";
-                        repeatLines.Append(line4);
-                    }
-                    line4 = repeatLines.ToString();
-                    repeatLines.Clear();
-                    //prints the boxes horizontal instead of vertical
-                    
-
-                    table[0] = line;
-                    table[1] = line1;
-                    table[2] = line2;
-                    table[3] = line3;
-                    table[4] = line4;
-
-
+                for (int b = 0; b < numColumns; b++)
+                {
+                    line1 = $@"| {days[b],-11} | ";
+                    repeatLines.Append(line1);
                     count2++;
                     if (count2 % numRows == 0)
                     {
                         count2 = 0;
-                        count1++;
                     }
-                
-
                 }
+                line1 = repeatLines.ToString();
+                repeatLines.Clear();
+
+                for (int c = 0; c < numColumns; c++)
+                {
+                    line2 = $@"| {hours[c, count2].ToString().PadLeft(2, '0')}:{minutes[c, count2].ToString().PadLeft(2, '0')}       | ";
+                    repeatLines.Append(line2);
+                    count2++;
+                    if (count2 % numRows == 0)
+                    {
+                        count2 = 0;
+                    }
+                }
+                line2 = repeatLines.ToString();
+                repeatLines.Clear();
+
+                for (int d = 0; d < numColumns; d++)
+                {
+                    line3 = $@"| {activities[d, count2],-11} | ";
+                    repeatLines.Append(line3);
+                    count2++;
+                    if (count2 % numRows == 0)
+                    {
+                        count2 = 0;
+                    }
+                }
+                line3 = repeatLines.ToString();
+                repeatLines.Clear();
+
+                for (int f = 0; f < numColumns; f++)
+                {
+                    line4 = $@"|_____________| ";
+                    repeatLines.Append(line4);
+                }
+                line4 = repeatLines.ToString();
+                repeatLines.Clear();
+                //prints the boxes horizontal instead of vertical
+
+                    
+
+                table[newRow + 0] = line;
+                table[newRow + 1] = line1;
+                table[newRow + 2] = line2;
+                table[newRow + 3] = line3;
+                table[newRow + 4] = line4;
+
+                count1++;
+                newRow += 5;
             }
-
-
-            // Print the table
 
         }
 
         public void PrintTable(int numRows)
         {
-            int count1 = 0;
+            int newRow = 0;
             for (int i = 0; i < numRows; i++)
             {
-                Console.WriteLine(table[count1]);
-                Console.WriteLine(table[count1+1]);
-                Console.WriteLine(table[count1+2]);
-                Console.WriteLine(table[count1+3]);
-                Console.WriteLine(table[count1+4]);
+                Console.WriteLine(table[newRow + 0]);
+                Console.WriteLine(table[newRow + 1]);
+                Console.WriteLine(table[newRow + 2]);
+                Console.WriteLine(table[newRow + 3]);
+                Console.WriteLine(table[newRow + 4]);
                 Console.WriteLine("");
-                count1 ++;
+
+                newRow += 5;
             }
-            
-
-
-
+            // Print the table
         }
         public void CreateFile(string fileName)
         {
@@ -189,7 +177,7 @@ namespace TimeTableApp_NEA
             {
                 string fileExtension = ".txt";
                 filePath = fileName + fileExtension;
-                FileStream fs = File.Open(filePath, FileMode.Create);
+                FileStream fs = File.Create(filePath);
 
                 Console.Clear();
                 Console.WriteLine("File " + filePath + " created or opened successfully.");
@@ -207,7 +195,7 @@ namespace TimeTableApp_NEA
             catch (Exception error)
             {
                 Console.Clear();
-                Console.WriteLine("Error creating or opening the file: " + error.Message);
+                Console.WriteLine("Error creating the file: " + error.Message);
             }
 
 
