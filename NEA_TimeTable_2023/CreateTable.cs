@@ -71,15 +71,17 @@ namespace TimeTableApp_NEA
             numColumns = 7;
             
             int count2 = 0;
-            
-            
             int newRow = 0;
             int count1 = 0;
+            int activitiesAndTimeRow = -1;
+            
+
             StringBuilder repeatLines = new StringBuilder();
             //puts string together
 
-            for (int j = 0; j < numColumns; j++)
+            for (int i = 0; i < numColumns; i++)
             {
+                activitiesAndTimeRow++;
                 string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
 
 
@@ -108,26 +110,18 @@ namespace TimeTableApp_NEA
 
                 for (int c = 0; c < numColumns; c++)
                 {
-                    line2 = $@"| {hours[c, count2].ToString().PadLeft(2, '0')}:{minutes[c, count2].ToString().PadLeft(2, '0')}       | ";
+                    line2 = $@"| {hours[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}:{minutes[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}       | ";
                     repeatLines.Append(line2);
-                    count2++;
-                    if (count2 % numRows == 0)
-                    {
-                        count2 = 0;
-                    }
                 }
                 line2 = repeatLines.ToString();
                 repeatLines.Clear();
 
                 for (int d = 0; d < numColumns; d++)
                 {
-                    line3 = $@"| {activities[d, count2],-11} | ";
+
+                    line3 = $@"| {activities[d, activitiesAndTimeRow],-11} | ";
                     repeatLines.Append(line3);
-                    count2++;
-                    if (count2 % numRows == 0)
-                    {
-                        count2 = 0;
-                    }
+                    
                 }
                 line3 = repeatLines.ToString();
                 repeatLines.Clear();
@@ -149,10 +143,12 @@ namespace TimeTableApp_NEA
                 table[newRow + 3] = line3;
                 table[newRow + 4] = line4;
 
+                
                 count1++;
                 newRow += 5;
+                
             }
-
+            
         }
 
         public void PrintTable(int numRows)
@@ -166,6 +162,21 @@ namespace TimeTableApp_NEA
                 Console.WriteLine(table[newRow + 3]);
                 Console.WriteLine(table[newRow + 4]);
                 Console.WriteLine("");
+                Console.WriteLine(activities[0,0]);
+                Console.WriteLine(activities[1, 0]);
+                Console.WriteLine(activities[2, 0]);
+                Console.WriteLine(activities[3, 0]);
+                Console.WriteLine(activities[4, 0]);
+                Console.WriteLine(activities[5, 0]);
+                Console.WriteLine(activities[6, 0]);
+
+                Console.WriteLine(activities[0, 1]);
+                Console.WriteLine(activities[1, 1]);
+                Console.WriteLine(activities[2, 1]);
+                Console.WriteLine(activities[3, 1]);
+                Console.WriteLine(activities[4, 1]);
+                Console.WriteLine(activities[5, 1]);
+                Console.WriteLine(activities[6, 1]);
 
                 newRow += 5;
             }
