@@ -73,21 +73,29 @@ namespace TimeTableApp_NEA
             int count2 = 0;
             int newRow = 0;
             int count1 = 0;
-            int activitiesAndTimeRow = -1;
+            int activitiesAndTimeRow = 0;
             
 
             StringBuilder repeatLines = new StringBuilder();
             //puts string together
-
-            for (int i = 0; i < numColumns; i++)
+            string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
+            for (int i = 0; i < numRows-1; i++)
             {
-                activitiesAndTimeRow++;
-                string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
+                
+                if(numRows == 0)
+                {
+                    activitiesAndTimeRow = 0;
+                }
+                if(numRows >= 1)
+                {
+                    activitiesAndTimeRow += 1;
+                }
+                
 
 
                 //puts string together
 
-                for (int a = 0; a < numColumns; a++)
+                for (int a = 0; a < 7; a++)
                 {
                     line = $@"_______________ ";
                     repeatLines.Append(line);
@@ -95,7 +103,7 @@ namespace TimeTableApp_NEA
                 line = repeatLines.ToString();
                 repeatLines.Clear();
 
-                for (int b = 0; b < numColumns; b++)
+                for (int b = 0; b < 7; b++)
                 {
                     line1 = $@"| {days[b],-11} | ";
                     repeatLines.Append(line1);
@@ -108,7 +116,7 @@ namespace TimeTableApp_NEA
                 line1 = repeatLines.ToString();
                 repeatLines.Clear();
 
-                for (int c = 0; c < numColumns; c++)
+                for (int c = 0; c < 7; c++)
                 {
                     line2 = $@"| {hours[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}:{minutes[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}       | ";
                     repeatLines.Append(line2);
@@ -116,7 +124,7 @@ namespace TimeTableApp_NEA
                 line2 = repeatLines.ToString();
                 repeatLines.Clear();
 
-                for (int d = 0; d < numColumns; d++)
+                for (int d = 0; d < 7; d++)
                 {
 
                     line3 = $@"| {activities[d, activitiesAndTimeRow],-11} | ";
@@ -126,7 +134,7 @@ namespace TimeTableApp_NEA
                 line3 = repeatLines.ToString();
                 repeatLines.Clear();
 
-                for (int f = 0; f < numColumns; f++)
+                for (int f = 0; f < 7; f++)
                 {
                     line4 = $@"|_____________| ";
                     repeatLines.Append(line4);
@@ -143,8 +151,15 @@ namespace TimeTableApp_NEA
                 table[newRow + 3] = line3;
                 table[newRow + 4] = line4;
 
-                
-                count1++;
+
+                if (numRows == 0)
+                {
+                    newRow = 0;
+                }
+                if (numRows >= 1)
+                {
+                    newRow += 5;
+                }
                 newRow += 5;
                 
             }
@@ -162,21 +177,7 @@ namespace TimeTableApp_NEA
                 Console.WriteLine(table[newRow + 3]);
                 Console.WriteLine(table[newRow + 4]);
                 Console.WriteLine("");
-                Console.WriteLine(activities[0,0]);
-                Console.WriteLine(activities[1, 0]);
-                Console.WriteLine(activities[2, 0]);
-                Console.WriteLine(activities[3, 0]);
-                Console.WriteLine(activities[4, 0]);
-                Console.WriteLine(activities[5, 0]);
-                Console.WriteLine(activities[6, 0]);
-
-                Console.WriteLine(activities[0, 1]);
-                Console.WriteLine(activities[1, 1]);
-                Console.WriteLine(activities[2, 1]);
-                Console.WriteLine(activities[3, 1]);
-                Console.WriteLine(activities[4, 1]);
-                Console.WriteLine(activities[5, 1]);
-                Console.WriteLine(activities[6, 1]);
+               
 
                 newRow += 5;
             }
