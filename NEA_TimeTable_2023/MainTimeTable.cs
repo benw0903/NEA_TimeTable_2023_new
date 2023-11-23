@@ -40,8 +40,8 @@ namespace TimeTableApp_NEA
             {
                 Console.Clear();
                 Console.WriteLine("Would you like to view or create a table today?");
-                Console.WriteLine("1.View");
-                Console.WriteLine("2.Create");
+                Console.WriteLine("View");
+                Console.WriteLine("Create");
                 option = Console.ReadLine().ToLower();
 
                 if (option == "view") { ViewTable(); }
@@ -67,8 +67,8 @@ namespace TimeTableApp_NEA
             };
 
             Console.WriteLine("Are you happy with the amount of slots you have chosen for you activities?");
-            Console.WriteLine("1.Yes");
-            Console.WriteLine("2.No");
+            Console.WriteLine("Yes");
+            Console.WriteLine("No");
             Console.WriteLine($"(Slot amount: {numRows})");
             string option = Console.ReadLine().ToLower();
 
@@ -80,8 +80,8 @@ namespace TimeTableApp_NEA
 
                 numRows = int.Parse(Console.ReadLine());
                 Console.WriteLine("Are you happy with the amount of slots you have chosen for you activities?");
-                Console.WriteLine("1.Yes");
-                Console.WriteLine("2.No");
+                Console.WriteLine("Yes");
+                Console.WriteLine("No");
                 Console.WriteLine($"(Slot amount: {numRows})");
 
                 option = Console.ReadLine();
@@ -149,13 +149,7 @@ namespace TimeTableApp_NEA
                 } while (true);
 
 
-
-                Console.WriteLine("Are you happy with the times you have picked?");
-                Console.WriteLine("1.Yes");
-                Console.WriteLine("2.No");
-                string option = Console.ReadLine().ToLower();
-
-                while (option != "yes" || minutesValue > 59 || minutesValue < 0 || hoursValue > 23 || hoursValue < 0)
+                while (minutesValue > 59 || minutesValue < 0 || hoursValue > 23 || hoursValue < 0)
                 {
                     Console.Clear();
 
@@ -188,12 +182,7 @@ namespace TimeTableApp_NEA
                             Console.WriteLine("Please enter a valid integer.");
                         }
                     } while (true);
-                    Console.Clear();
-
-                    Console.WriteLine("Are you happy with the times you have picked?");
-                    Console.WriteLine("1.Yes");
-                    Console.WriteLine("2.No");
-                    option = Console.ReadLine();
+                    Console.Clear();           
                 }
                 // Makes sure the Hours and Minutes are valid
 
@@ -222,8 +211,8 @@ namespace TimeTableApp_NEA
                 activity = Console.ReadLine();
 
                 Console.WriteLine("Are you happy with the activity you have picked?");
-                Console.WriteLine("1.Yes");
-                Console.WriteLine("2.No");
+                Console.WriteLine("Yes");
+                Console.WriteLine("No");
                 string option2 = Console.ReadLine().ToLower();
 
                 while (option2 != "yes")
@@ -246,8 +235,8 @@ namespace TimeTableApp_NEA
                     Console.Clear();
 
                     Console.WriteLine("Are you happy with the times you have picked?");
-                    Console.WriteLine("1.Yes");
-                    Console.WriteLine("2.No");
+                    Console.WriteLine("Yes");
+                    Console.WriteLine("No");
                     option2 = Console.ReadLine();
                 }
                 //Checks to see if the user is happy with the activity they choosen
@@ -274,17 +263,18 @@ namespace TimeTableApp_NEA
 
             Console.WriteLine("");
             Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.");
-            Console.WriteLine("1.Change");
-            Console.WriteLine("2.Comment");
-            Console.WriteLine("3.Finish");
+            Console.WriteLine("Change");
+            Console.WriteLine("Comment");
+            Console.WriteLine("Finish");
             string option3 = Console.ReadLine().ToLower();
 
             while (option3 != "change" && option3 != "comment" && option3 != "finish")
             {
+                Console.Clear();
                 Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.");
-                Console.WriteLine("1.Change");
-                Console.WriteLine("2.Comment");
-                Console.WriteLine("3.Finish");
+                Console.WriteLine("Change");
+                Console.WriteLine("Comment");
+                Console.WriteLine("Finish");
                 option3 = Console.ReadLine().ToLower();
                 Console.Clear();
             }
@@ -371,8 +361,8 @@ namespace TimeTableApp_NEA
             }
 
             Console.WriteLine("Are you happy with the times you have picked?");
-            Console.WriteLine("1.Yes");
-            Console.WriteLine("2.No");
+            Console.WriteLine("Yes");
+            Console.WriteLine("No");
             string option = Console.ReadLine().ToLower();
 
             while (option != "yes" || minutesValue >= 60 || minutesValue < 0 || hoursValue >= 24 || hoursValue < 0)
@@ -417,8 +407,8 @@ namespace TimeTableApp_NEA
                 Console.Clear();
 
                 Console.WriteLine("Are you happy with the times you have picked?");
-                Console.WriteLine("1.Yes");
-                Console.WriteLine("2.No");
+                Console.WriteLine("Yes");
+                Console.WriteLine("No");
                 option = Console.ReadLine();
             }
             // Makes sure the Hours and Minutes are valid
@@ -445,8 +435,8 @@ namespace TimeTableApp_NEA
             string activity = Console.ReadLine();
 
             Console.WriteLine("Are you happy with the activity you have picked?");
-            Console.WriteLine("1.Yes");
-            Console.WriteLine("2.No");
+            Console.WriteLine("Yes");
+            Console.WriteLine("No");
             string option2 = Console.ReadLine().ToLower();
 
             while (option2 != "yes")
@@ -468,8 +458,8 @@ namespace TimeTableApp_NEA
                 Console.Clear();
 
                 Console.WriteLine("Are you happy with the times you have picked?");
-                Console.WriteLine("1.Yes");
-                Console.WriteLine("2.No");
+                Console.WriteLine("Yes");
+                Console.WriteLine("No");
                 option2 = Console.ReadLine();
             }
             //Checks to see if the user is happy with the activity they choosen
@@ -484,9 +474,9 @@ namespace TimeTableApp_NEA
             //prints table
 
             Console.WriteLine("Would you like to make more changes or are the you happy with the timetable.");
-            Console.WriteLine("1.Change");
-            Console.WriteLine("2.Comment");
-            Console.WriteLine("3.Finish");
+            Console.WriteLine("Change");
+            Console.WriteLine("Comment");
+            Console.WriteLine("Finish");
 
             string option3 = Console.ReadLine().ToLower();
             Console.Clear();
@@ -514,7 +504,7 @@ namespace TimeTableApp_NEA
         {
             List<string> comments = new List<string>();
             bool hasFinishedCommenting = false;
-            bool hasRemovedComments = false;
+
 
             while (!hasFinishedCommenting) 
             {
@@ -630,7 +620,7 @@ namespace TimeTableApp_NEA
         }
         static bool CheckDateFormat(string fileName)
         { 
-            string regexDate = @"^\d{2}/\d{2}/\d{4}$";
+            string regexDate = @"\d{2}/\d{2}/\d{4}";
             //regex for the date as dd/mm/yyyy  2 digits 0-9 /2 digitis 0-9 /4 digits 0-9
             if (Regex.IsMatch(fileName, regexDate))
             {

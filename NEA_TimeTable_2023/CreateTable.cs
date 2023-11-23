@@ -277,7 +277,7 @@ namespace TimeTableApp_NEA
             }
             // Print the table
         }
-        public void CreateFile(string fileName,int numColumns,int numRows)
+        public void CreateFile(string fileName,int numColumns,int numRows, List<string> comments)
         {
             try
             {
@@ -295,13 +295,13 @@ namespace TimeTableApp_NEA
 
                     }
                     
-                   
+
                 }
             }
             catch (Exception error)
             {
                 Console.Clear();
-                Console.WriteLine("Error creating the file: " + error.Message);
+                Console.WriteLine("Error creating the file:  " + error.Message);
             }
 
 
