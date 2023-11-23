@@ -265,9 +265,10 @@ namespace TimeTableApp_NEA
             }
             //loops for time and activities 
 
-            schedule.CreateFile(fileName);
+            schedule.CreateFile(fileName,numColumns,numRows);
             Console.Clear();
-            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.block1(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
             schedule.PrintTable(numRows);
             //prints table
 
@@ -474,11 +475,12 @@ namespace TimeTableApp_NEA
             //Checks to see if the user is happy with the activity they choosen
 
             Console.Clear();
-            for (int i = 0; i < numRows; i++)
-            {
-                schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
-                schedule.PrintTable(numRows);
-            }
+
+
+            schedule.block1(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            schedule.PrintTable(numRows);
+
             //prints table
 
             Console.WriteLine("Would you like to make more changes or are the you happy with the timetable.");
@@ -629,7 +631,7 @@ namespace TimeTableApp_NEA
         static bool CheckDateFormat(string fileName)
         { 
             string regexDate = @"^\d{2}/\d{2}/\d{4}$";
-            //regex for the date as dd/mm/yyyy
+            //regex for the date as dd/mm/yyyy  2 digits 0-9 /2 digitis 0-9 /4 digits 0-9
             if (Regex.IsMatch(fileName, regexDate))
             {
                 return true;
