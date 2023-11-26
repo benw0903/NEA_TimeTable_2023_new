@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +7,16 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices.ComTypes;
+using System.ComponentModel;
 
 namespace TimeTableApp_NEA
 {
-  
-    class MainTimeTable 
+    internal class Program
     {
+        static List<string> comments;
+
         static void Main(string[] args)
-    {
+        {
 
             Console.WriteLine(@"
 ███╗   ███╗██╗   ██╗████████╗██╗███╗   ███╗███████╗
@@ -31,8 +32,8 @@ namespace TimeTableApp_NEA
             Console.Clear();
             ViewOrCreate();
 
-    }
-        static void ViewOrCreate()
+        }
+        public static void ViewOrCreate()
         {
             string option = "";
 
@@ -48,7 +49,7 @@ namespace TimeTableApp_NEA
                 if (option == "create") { FileName(); }
             }
         }
-        static void SlotAmount(string fileName)
+        public static void SlotAmount(string fileName)
         {
             Console.Clear();
 
@@ -93,6 +94,85 @@ namespace TimeTableApp_NEA
                 ActivitiesAndTime(numColumns, numRows, fileName);
             }
         }
+        static void GetInputtedTime(out int hoursValue, out int minutesValue)
+        {
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out hoursValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer.");
+                }
+            } while (true);
+
+            Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
+            do
+            {
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out minutesValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid integer.");
+                }
+            } while (true);
+        }
+
+        static void GetInputtedActivity(out string activity,int count2)
+        {
+            Console.WriteLine("Enter the activity for the time you have chosen.");
+            Console.WriteLine("Slot(" + (count2 + 1) + ")");
+            activity = Console.ReadLine();
+        }
+
+        static bool ConfirmActivity()
+        {
+            Console.WriteLine("Are you happy with the activity you have picked?");
+            Console.WriteLine("Yes");
+            Console.WriteLine("No");
+            string option2 = Console.ReadLine().ToLower();
+
+            return option2 == "yes";
+        }
+
+        static void PrintTime(int hoursValue, int minutesValue, string[] days,int count1)
+        {
+            Console.Clear();
+            if (minutesValue > 9)
+            {
+                Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
+            }
+            if (minutesValue < 10)
+            {
+                Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
+            }
+        }
+
+        static void ChangeOption(out string option3)
+        {
+            Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.");
+            Console.WriteLine("Change");
+            Console.WriteLine("Comment");
+            Console.WriteLine("Finish");
+            option3 = Console.ReadLine().ToLower();
+        }
+
+        static void LoopForOption3(out string option3)
+        {
+            Console.WriteLine(@"Would you like to make more changes or are you happy with the timetable.");
+            Console.WriteLine("Change");
+            Console.WriteLine("Comment");
+            Console.WriteLine("Finish");
+            option3 = Console.ReadLine().ToLower();
+            Console.Clear();
+        }
+
         static void ActivitiesAndTime(int numColumns, int numRows, string fileName)
         {
             Console.Clear();
@@ -103,7 +183,6 @@ namespace TimeTableApp_NEA
             int[,] hours = new int[numColumns, numRows];
             int[,] minutes = new int[numColumns, numRows];
             string[,] activities = new string[numColumns, numRows];
-            
 
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
@@ -117,129 +196,33 @@ namespace TimeTableApp_NEA
                 Console.WriteLine("Enter the hour the activity will take place. 00-23");
                 Console.WriteLine("Slot(" + (count2 + 1) + ")");
 
+                GetInputtedTime(out hoursValue, out minutesValue);
 
-                do
-                {
-                    string userInput = Console.ReadLine();
+                PrintTime(hoursValue, minutesValue, days,count1);
 
-                    if (int.TryParse(userInput, out hoursValue))
-                    {
-                        schedule.HoursValue(count1, count2, hoursValue);
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a valid integer.");
-                    }
-                } while (true);
-
-                Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-                do
-                {
-                    string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out minutesValue))
-                    {
-                        schedule.MinutesValue(count1, count2, minutesValue);
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a valid integer.");
-                    }
-                } while (true);
-
-
-                while (minutesValue > 59 || minutesValue < 0 || hoursValue > 23 || hoursValue < 0)
+                while (!ConfirmActivity())
                 {
                     Console.Clear();
-
-                    Console.WriteLine(days[count1]);
-                    Console.WriteLine("Enter the hour the time will take place. 00-23");
-                    Console.WriteLine("Slot("+ count2 + 1+")");
-                    do
-                    {
-                        string userInput = Console.ReadLine();
-                        if (int.TryParse(userInput, out hoursValue))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid integer.");
-                        }
-                    } while (true);
-
-                    Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-                    do
-                    {
-                        string userInput = Console.ReadLine();
-                        if (int.TryParse(userInput, out minutesValue))
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid integer.");
-                        }
-                    } while (true);
-                    Console.Clear();           
+                    PrintTime(hoursValue, minutesValue,days,count1);
+                    GetInputtedActivity(out activity,count2);
                 }
-                // Makes sure the Hours and Minutes are valid
 
-
-                if (hoursValue <= 24 || minutesValue < 60 && hoursValue >= 0 || minutesValue > 0)
-                {
-                    schedule.HoursValue(count1, count2, hoursValue);
-                    schedule.MinutesValue(count1, count2, minutesValue);
-                    hours[count1, count2]=hoursValue;
-                    minutes[count1, count2]=minutesValue;
-                }
+                schedule.HoursValue(count1, count2, hoursValue);
+                schedule.MinutesValue(count1, count2, minutesValue);
+                hours[count1, count2] = hoursValue;
+                minutes[count1, count2] = minutesValue;
 
                 Console.Clear();
-                if (minutesValue > 9)
-                {
-                    Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
-                }
-                if (minutesValue < 10)
-                {
-                    Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
-                }
-                // makes sure the time is 1:02 instead of 1:2
+                PrintTime(hoursValue, minutesValue,days,count1);
 
-                Console.WriteLine("Enter the activity for the time you have chosen.");
-                Console.WriteLine("Slot(" + (count2 + 1) + ")");
-                activity = Console.ReadLine();
+                GetInputtedActivity(out activity,count2);
 
-                Console.WriteLine("Are you happy with the activity you have picked?");
-                Console.WriteLine("Yes");
-                Console.WriteLine("No");
-                string option2 = Console.ReadLine().ToLower();
-
-                while (option2 != "yes")
+                while (!ConfirmActivity())
                 {
                     Console.Clear();
-
-                    if (minutesValue > 9)
-                    {
-                        Console.WriteLine(days[count1] + " " + hoursValue + ":" + minutesValue);
-                    }
-                    if (minutesValue < 10)
-                    {
-                        Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
-                    }
-                    // makes sure the time is 1:02 instead of 1:2
-
-                    Console.WriteLine("Enter the activity for the time you have chosen.");
-                    Console.WriteLine("Slot(" + (count2 +1)+ ")");
-                    activity = Console.ReadLine();
-                    Console.Clear();
-
-                    Console.WriteLine("Are you happy with the times you have picked?");
-                    Console.WriteLine("Yes");
-                    Console.WriteLine("No");
-                    option2 = Console.ReadLine();
+                    PrintTime(hoursValue, minutesValue, days,count1);
+                    GetInputtedActivity(out activity,count2);
                 }
-                //Checks to see if the user is happy with the activity they choosen
 
                 schedule.ActivitiesInput(count1, count2, activity);
                 activities[count1, count2] = activity;
@@ -250,38 +233,26 @@ namespace TimeTableApp_NEA
                     count2 = 0;
                     count1++;
                 }
-
             }
-            //loops for time and activities 
 
-            schedule.CreateFile(fileName,numColumns,numRows);
+            schedule.CreateFile(fileName, numColumns, numRows,comments);
             Console.Clear();
-            schedule.block1(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
+            
             schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
             schedule.PrintTable(numRows);
-            //prints table
 
-            Console.WriteLine("");
-            Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.");
-            Console.WriteLine("Change");
-            Console.WriteLine("Comment");
-            Console.WriteLine("Finish");
-            string option3 = Console.ReadLine().ToLower();
+            string option3;
+            ChangeOption(out option3);
 
             while (option3 != "change" && option3 != "comment" && option3 != "finish")
             {
-                Console.Clear();
-                Console.WriteLine(@"Would you like to make more changes or are the you happy with the timetable.");
-                Console.WriteLine("Change");
-                Console.WriteLine("Comment");
-                Console.WriteLine("Finish");
-                option3 = Console.ReadLine().ToLower();
-                Console.Clear();
+                LoopForOption3(out option3);
+                ChangeOption(out option3);
             }
 
             if (option3 == "change")
             {
-                BlockSelect(numRows, numColumns, fileName,hours,minutes,activities);
+                BlockSelect(numRows, numColumns, fileName, hours, minutes, activities);
             }
             if (option3 == "comment")
             {
@@ -292,7 +263,7 @@ namespace TimeTableApp_NEA
                 FinishTable(fileName);
             }
         }
-        static void BlockSelect(int numRows, int numColumns, string fileName, int[,] hours,int[,] minutes, string[,] activities)
+        public static void BlockSelect(int numRows, int numColumns, string fileName, int[,] hours, int[,] minutes, string[,] activities)
         {
             Console.Clear();
             Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
@@ -319,16 +290,16 @@ namespace TimeTableApp_NEA
                 Console.WriteLine("column:" + columns + "" + @"rows:" + rows + "Are valid");
             }
 
-            BlockDeleteAndReform(numRows,numColumns,rows, columns, fileName,hours,minutes,activities);
+            BlockDeleteAndReform(numRows, numColumns, rows, columns, fileName, hours, minutes, activities);
         }
-        static void BlockDeleteAndReform(int numRows, int numColumns,int rows, int columns,string fileName, int[,] hours, int[,] minutes, string[,] activities)
+        public static void BlockDeleteAndReform(int numRows, int numColumns, int rows, int columns, string fileName, int[,] hours, int[,] minutes, string[,] activities)
         {
             ActivitiesAndTimes schedule = new ActivitiesAndTimes(rows, columns);
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             numRows = 0; numColumns = 0;
             int hoursValue, minutesValue;
-            
-            Console.WriteLine("Day:"+ days[columns-1]);
+
+            Console.WriteLine("Day:" + days[columns - 1]);
             Console.WriteLine("Enter the hour the activity will take place. 00-23");
 
             while (true)
@@ -344,9 +315,9 @@ namespace TimeTableApp_NEA
                     Console.WriteLine("Please enter a valid integer. 00-23");
                 }
             }
-            
+
             Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
-            while (true) 
+            while (true)
             {
                 string userInput = Console.ReadLine();
                 if (int.TryParse(userInput, out minutesValue) && minutesValue >= 0 && minutesValue <= 59)
@@ -379,7 +350,7 @@ namespace TimeTableApp_NEA
                     if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
                     {
                         schedule.HoursValue(columns, rows, hoursValue);
-                        validInput = true; 
+                        validInput = true;
                     }
                     else
                     {
@@ -402,7 +373,7 @@ namespace TimeTableApp_NEA
                     {
                         Console.WriteLine("Please enter a valid integer.00-59");
                     }
-                } 
+                }
 
                 Console.Clear();
 
@@ -489,9 +460,9 @@ namespace TimeTableApp_NEA
             }
             if (option3 == "change")
             {
-                BlockDeleteAndReform(numRows,numColumns,rows,columns,fileName,hours,minutes,activities);
+                BlockDeleteAndReform(numRows, numColumns, rows, columns, fileName, hours, minutes, activities);
             }
-            if(option3 == "comment")
+            if (option3 == "comment")
             {
                 Comments();
             }
@@ -500,13 +471,13 @@ namespace TimeTableApp_NEA
                 FinishTable(fileName);
             }
         }
-        static void Comments()
+        public static void Comments()
         {
-            List<string> comments = new List<string>();
+            comments = new List<string>();
             bool hasFinishedCommenting = false;
 
 
-            while (!hasFinishedCommenting) 
+            while (!hasFinishedCommenting)
             {
                 Console.Write("Enter a comment or type stop to finish commenting. ");
                 string comment = Console.ReadLine().ToLower();
@@ -558,7 +529,7 @@ namespace TimeTableApp_NEA
                 Console.WriteLine($"{i + 1}. {comments[i]}");
             }
         }
-        static void FileName()
+        public static void FileName()
         {
             Console.Clear();
             DateTime currentTime = DateTime.Now;
@@ -566,8 +537,8 @@ namespace TimeTableApp_NEA
             Console.WriteLine($"The current Date and Time is: {currentTime}.");
             Console.WriteLine("Enter in the starting day of your week. (dd/mm/yyyy).");
             string fileName = Console.ReadLine();
-            List<int> incorrectMaxDays = new List<int> {1, 3, 5, 7, 8, 10, 12};
-            List<int> incorrectDays = new List<int> {4, 6, 9, 11};
+            List<int> incorrectMaxDays = new List<int> { 1, 3, 5, 7, 8, 10, 12 };
+            List<int> incorrectDays = new List<int> { 4, 6, 9, 11 };
 
             while (CheckDateFormat(fileName) != true)
             {
@@ -595,10 +566,10 @@ namespace TimeTableApp_NEA
             int yearInt = int.Parse(YearString);
             // Converting the inputed date into induvidual days months and years
 
-            if((dayInt > 31 && incorrectMaxDays.Contains(monthInt)) || (dayInt > 30 && incorrectDays.Contains(monthInt) ) || (dayInt > 28 && monthInt == 2)) { FileName(); }
+            if ((dayInt > 31 && incorrectMaxDays.Contains(monthInt)) || (dayInt > 30 && incorrectDays.Contains(monthInt)) || (dayInt > 28 && monthInt == 2)) { FileName(); }
             //Checks to see if the date enterd is correct from january-december
-            
-            if(dayInt > 31 && monthInt > 12 || dayInt < 1 && monthInt < 1) { FileName(); }
+
+            if (dayInt > 31 && monthInt > 12 || dayInt < 1 && monthInt < 1) { FileName(); }
             //Checks the max month and max days and lowest days and lowest month int
 
             while (currentDayInt - dayInt >= 0 && currentMonthInt - monthInt >= 0 && currentYearInt - yearInt >= 0)
@@ -618,8 +589,8 @@ namespace TimeTableApp_NEA
 
             SlotAmount(fileName);
         }
-        static bool CheckDateFormat(string fileName)
-        { 
+        public static bool CheckDateFormat(string fileName)
+        {
             string regexDate = @"\d{2}/\d{2}/\d{4}";
             //regex for the date as dd/mm/yyyy  2 digits 0-9 /2 digitis 0-9 /4 digits 0-9
             if (Regex.IsMatch(fileName, regexDate))
@@ -628,14 +599,15 @@ namespace TimeTableApp_NEA
             }
             return false;
         }
-        static void FinishTable(string filename)
+        public static void FinishTable(string filename)
         {
             Console.WriteLine("Here is your finished Timetable for the date " + filename);
         }
-        static void ViewTable()
-            {
-                Console.WriteLine("Enter the name of the file you would like to view.");
-                string fileName = Console.ReadLine();
-            }
+        public static void ViewTable()
+        {
+            Console.WriteLine("Enter the name of the file you would like to view.");
+            string fileName = Console.ReadLine();
+        }
     }
 }
+ 
