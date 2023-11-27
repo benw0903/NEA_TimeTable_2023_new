@@ -183,6 +183,8 @@ namespace TimeTableApp_NEA
             int[,] hours = new int[numColumns, numRows];
             int[,] minutes = new int[numColumns, numRows];
             string[,] activities = new string[numColumns, numRows];
+            List<string> comments;
+            comments = new List<string>();
 
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
@@ -235,34 +237,92 @@ namespace TimeTableApp_NEA
                 }
             }
 
+            Comments(comments);
+
             schedule.CreateFile(fileName, numColumns, numRows,comments);
             Console.Clear();
             
             schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
-            schedule.PrintTable(numRows);
+            schedule.PrintTable(numRows,comments);
 
             string option3;
             ChangeOption(out option3);
 
-            while (option3 != "change" && option3 != "comment" && option3 != "finish")
+            while (option3 != "change" && option3 != "finish")
             {
                 LoopForOption3(out option3);
                 ChangeOption(out option3);
             }
-
             if (option3 == "change")
             {
                 BlockSelect(numRows, numColumns, fileName, hours, minutes, activities);
-            }
-            if (option3 == "comment")
-            {
-                Comments();
             }
             if (option3 == "finish")
             {
                 FinishTable(fileName);
             }
         }
+
+        public static List<string> Comments(List<string> comments)
+        {
+            comments = new List<string>();
+            bool hasFinishedCommenting = false;
+
+
+            while (!hasFinishedCommenting)
+            {
+                Console.Write("Enter a comment or type stop to finish commenting. ");
+                string comment = Console.ReadLine().ToLower();
+
+                if (comment == "stop")
+                {
+                    hasFinishedCommenting = true;
+                }
+                comments.Add(comment);
+            }
+            return comments;
+
+
+            Console.WriteLine("Comments List:");
+            for (int i = 0; i < comments.Count; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + comments[i]);
+            }
+
+            while (!hasFinishedCommenting)
+            {
+                Console.Write("Enter the number of the comment to remove.");
+                Console.WriteLine("You can exit by entering (0)");
+                if (int.TryParse(Console.ReadLine(), out int selection))
+                {
+                    if (selection == 0)
+                    {
+                        hasFinishedCommenting = true;
+                    }
+
+                    if (selection >= 1 && selection <= comments.Count)
+                    {
+                        comments.RemoveAt(selection - 1);
+                        Console.WriteLine("Comment removed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid please try again.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input please enter a number or '0' to exit.");
+                }
+            }
+
+            Console.WriteLine("Updated Comments List:");
+            for (int i = 0; i < comments.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {comments[i]}");
+            }
+        }
+
         public static void BlockSelect(int numRows, int numColumns, string fileName, int[,] hours, int[,] minutes, string[,] activities)
         {
             Console.Clear();
@@ -440,7 +500,7 @@ namespace TimeTableApp_NEA
 
             schedule.block1(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
             schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
-            schedule.PrintTable(numRows);
+            schedule.PrintTable(numRows,comments);
 
             //prints table
 
@@ -462,73 +522,12 @@ namespace TimeTableApp_NEA
             {
                 BlockDeleteAndReform(numRows, numColumns, rows, columns, fileName, hours, minutes, activities);
             }
-            if (option3 == "comment")
-            {
-                Comments();
-            }
             if (option3 != "finish")
             {
                 FinishTable(fileName);
             }
         }
-        public static void Comments()
-        {
-            comments = new List<string>();
-            bool hasFinishedCommenting = false;
-
-
-            while (!hasFinishedCommenting)
-            {
-                Console.Write("Enter a comment or type stop to finish commenting. ");
-                string comment = Console.ReadLine().ToLower();
-
-                if (comment == "stop")
-                {
-                    hasFinishedCommenting = true;
-                }
-                comments.Add(comment);
-            }
-
-
-            Console.WriteLine("Comments List:");
-            for (int i = 0; i < comments.Count; i++)
-            {
-                Console.WriteLine((i + 1) + ". " + comments[i]);
-            }
-
-            while (!hasFinishedCommenting)
-            {
-                Console.Write("Enter the number of the comment to remove.");
-                Console.WriteLine("You can exit by entering (0)");
-                if (int.TryParse(Console.ReadLine(), out int selection))
-                {
-                    if (selection == 0)
-                    {
-                        hasFinishedCommenting = true;
-                    }
-
-                    if (selection >= 1 && selection <= comments.Count)
-                    {
-                        comments.RemoveAt(selection - 1);
-                        Console.WriteLine("Comment removed.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid please try again.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input please enter a number or '0' to exit.");
-                }
-            }
-
-            Console.WriteLine("Updated Comments List:");
-            for (int i = 0; i < comments.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {comments[i]}");
-            }
-        }
+        
         public static void FileName()
         {
             Console.Clear();

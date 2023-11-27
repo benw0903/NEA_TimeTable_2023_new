@@ -12,7 +12,7 @@ class ActivitiesAndTimes
     public int[,] minutes;
     public string[] table1;
     public string[,] table2;
-    public List<string> commentsList;
+    
     public ActivitiesAndTimes(int numRows, int numColumns)
     {
 
@@ -227,7 +227,7 @@ class ActivitiesAndTimes
         }
 
     }
-    public void PrintTable(int numRows)
+    public void PrintTable(int numRows,List<string> comments)
     {
         int newRow = 0;
         for (int i = 0; i < numRows; i++)
@@ -242,14 +242,15 @@ class ActivitiesAndTimes
             Console.WriteLine(table2[i,newRow + 4]);
             newRow += 5;
             // Print the table
+        }
 
+        Console.WriteLine("Comments List:");
+        for (int i = 0; i < comments.Count; i++)
+        {
+            Console.WriteLine((i + 1) + ". " + comments[i]);
         }
     }
-    public void Comments(List<string> comments)
-    {
-        commentsList = comments;
-
-    }
+   
 
 
     public void CreateFile(string fileName, int numColumns, int numRows, List<string> comments)
@@ -265,11 +266,24 @@ class ActivitiesAndTimes
 
             using (StreamWriter sw = new StreamWriter(filePath, true))
             {
-                for (int i = 0; i < 5 * numRows;)
+                int newRow = 0;
+                for (int i = 0; i < numRows; i++)
                 {
+                    Console.WriteLine("");
+                    Console.WriteLine(table2[i, newRow]);
+                    Console.WriteLine(table2[i, newRow + 1]);
+                    Console.WriteLine(table2[i, newRow + 2]);
+                    Console.WriteLine(table2[i, newRow + 3]);
+                    Console.WriteLine(table2[i, newRow + 4]);
+                    newRow += 5;
+                    // Print the table
 
                 }
-
+                Console.WriteLine("Comments List:");
+                for (int i = 0; i < comments.Count; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + comments[i]);
+                }
 
             }
         }
