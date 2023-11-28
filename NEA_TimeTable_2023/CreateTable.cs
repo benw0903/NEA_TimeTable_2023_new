@@ -12,6 +12,7 @@ class ActivitiesAndTimes
     public int[,] minutes;
     public string[] table1;
     public string[,] table2;
+    public List<string> comments;
     
     public ActivitiesAndTimes(int numRows, int numColumns)
     {
@@ -139,7 +140,7 @@ class ActivitiesAndTimes
         }
 
     }
-    public void block2(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns)
+    public void block2(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns,List<string> comment)
     {
         numColumns = 7;
         int count1 = 0;
@@ -222,12 +223,12 @@ class ActivitiesAndTimes
 
 
             newRow += 5;
-
+            comments = comment;
 
         }
 
     }
-    public void PrintTable(int numRows,List<string> comments)
+    public void PrintTable(int numRows, List<string> comments)
     {
         int newRow = 0;
         for (int i = 0; i < numRows; i++)
@@ -241,13 +242,20 @@ class ActivitiesAndTimes
             Console.WriteLine(table2[i,newRow + 3]);
             Console.WriteLine(table2[i,newRow + 4]);
             newRow += 5;
-            // Print the table
+            // Prints the table
         }
 
-        Console.WriteLine("Comments List:");
-        for (int i = 0; i < comments.Count; i++)
+        Console.WriteLine("\nComments List:");
+        if (comments.Count == 0)
         {
-            Console.WriteLine((i + 1) + ". " + comments[i]);
+            Console.WriteLine("No comments available.");
+        }
+        else
+        {
+            for (int i = 0; i < comments.Count; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + comments[i]);
+            }
         }
     }
    
