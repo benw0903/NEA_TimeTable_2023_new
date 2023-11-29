@@ -158,7 +158,6 @@ namespace TimeTableApp_NEA
         {
             Console.WriteLine(@"Would you like to change any part of this timetable or would you like to make some comments on your table.");
             Console.WriteLine("Change");
-            Console.WriteLine("Comment");
             Console.WriteLine("Finish");
             option3 = Console.ReadLine().ToLower();
         }
@@ -167,7 +166,6 @@ namespace TimeTableApp_NEA
         {
             Console.WriteLine(@"Would you like to make more changes or are you happy with the timetable.");
             Console.WriteLine("Change");
-            Console.WriteLine("Comment");
             Console.WriteLine("Finish");
             option3 = Console.ReadLine().ToLower();
             Console.Clear();
@@ -292,12 +290,12 @@ namespace TimeTableApp_NEA
                 Console.WriteLine($"{i + 1}. {comments[i]}");
             }
 
-            schedule.CreateFile(fileName, numColumns, numRows,comments);
+            
             Console.Clear();
             
             schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns,comments);
             schedule.PrintTable(numRows,comments);
-
+            schedule.CreateFile(fileName, numColumns, numRows, comments);
             string option3;
             ChangeOption(out option3);
 
@@ -356,8 +354,10 @@ namespace TimeTableApp_NEA
 
                     if (selection >= 1 && selection <= comments.Count)
                     {
+                        Console.Clear();
                         comments.RemoveAt(selection - 1);
                         Console.WriteLine("Comment removed.");
+                        Console.WriteLine("Comments List:");
                     }
                     else
                     {
@@ -589,7 +589,7 @@ namespace TimeTableApp_NEA
             DateTime currentTime = DateTime.Now;
 
             Console.WriteLine($"The current Date and Time is: {currentTime}.");
-            Console.WriteLine("Enter in the starting day of your week. (dd/mm/yyyy).");
+            Console.WriteLine("Enter in the starting day of your week. (dd.mm.yyyy).");
             string fileName = Console.ReadLine();
             List<int> incorrectMaxDays = new List<int> { 1, 3, 5, 7, 8, 10, 12 };
             List<int> incorrectDays = new List<int> { 4, 6, 9, 11 };
@@ -645,7 +645,7 @@ namespace TimeTableApp_NEA
         }
         public static bool CheckDateFormat(string fileName)
         {
-            string regexDate = @"\d{2}/\d{2}/\d{4}";
+            string regexDate = @"\d{2}.\d{2}.\d{4}";
             //regex for the date as dd/mm/yyyy  2 digits 0-9 /2 digitis 0-9 /4 digits 0-9
             if (Regex.IsMatch(fileName, regexDate))
             {

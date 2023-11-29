@@ -263,42 +263,69 @@ class ActivitiesAndTimes
 
     public void CreateFile(string fileName, int numColumns, int numRows, List<string> comments)
     {
+        string filePath;
+        string fileExtension = ".txt";
         try
         {
-            string fileExtension = ".txt";
-            filePath = fileName + fileExtension;
-            FileStream fs = File.Create(filePath);
+                        
+            string path = @"C:\Users\Ben09\Source\Repos\benw0903\NEA_TimeTable_2023_new\NEA_TimeTable_2023\bin\Debug\";
+            filePath = Path.Combine(path, fileName + fileExtension);
+
+
 
             Console.Clear();
             Console.WriteLine("File " + filePath + " created or opened successfully.");
 
-            using (StreamWriter sw = new StreamWriter(filePath, true))
+            string directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
             {
-                int newRow = 0;
-                for (int i = 0; i < numRows; i++)
+                Directory.CreateDirectory(directoryPath);
+            }
+            //if the directory does not exitst it will make one
+
+            using (FileStream fs = File.Create(filePath))
+            {
+                Console.Clear();
+                Console.WriteLine("File " + filePath + " created or opened successfully.");
+
+                using (StreamWriter sw = new StreamWriter(fs))
                 {
+                    int newRow = 0;
+                    for (int i = 0; i < numRows; i++)
+                    {
+
+
+                        sw.WriteLine("");
+                        sw.WriteLine(table2[i, newRow]);
+                        sw.WriteLine(table2[i, newRow + 1]);
+                        sw.WriteLine(table2[i, newRow + 2]);
+                        sw.WriteLine(table2[i, newRow + 3]);
+                        sw.WriteLine(table2[i, newRow + 4]);
+                        newRow += 5;
+                        // Prints the table
+                    }
                     Console.WriteLine("");
-                    Console.WriteLine(table2[i, newRow]);
-                    Console.WriteLine(table2[i, newRow + 1]);
-                    Console.WriteLine(table2[i, newRow + 2]);
-                    Console.WriteLine(table2[i, newRow + 3]);
-                    Console.WriteLine(table2[i, newRow + 4]);
-                    newRow += 5;
-                    // Print the table
-
+                    Console.WriteLine("\nComments List:");
+                    if (comments.Count == 0)
+                    {
+                        Console.WriteLine("No comments available.");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < comments.Count; i++)
+                        {
+                            sw.WriteLine((i + 1) + ". " + comments[i]);
+                        }
+                        //prints comments 
+                    }
                 }
-                Console.WriteLine("Comments List:");
-                for (int i = 0; i < comments.Count; i++)
-                {
-                    Console.WriteLine((i + 1) + ". " + comments[i]);
-                }
-
             }
         }
         catch (Exception error)
         {
             Console.Clear();
             Console.WriteLine("Error creating the file:  " + error.Message);
+            // if file cannot be created this will be the error message
         }
 
 
