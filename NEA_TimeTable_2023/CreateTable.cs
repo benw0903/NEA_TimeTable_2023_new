@@ -228,8 +228,9 @@ class ActivitiesAndTimes
         }
 
     }
-    public void PrintTable(int numRows, List<string> comments)
+    public void PrintTable(int numRows, List<string> comment)
     {
+        comments = comment;
         int newRow = 0;
         for (int i = 0; i < numRows; i++)
         {
@@ -261,8 +262,9 @@ class ActivitiesAndTimes
    
 
 
-    public void CreateFile(string fileName, int numColumns, int numRows, List<string> comments)
+    public void CreateFile(string fileName, int numColumns, int numRows, List<string> comment)
     {
+        comments = comment;
         string filePath;
         string fileExtension = ".txt";
         try
@@ -271,10 +273,6 @@ class ActivitiesAndTimes
             string path = @"C:\Users\Ben09\Source\Repos\benw0903\NEA_TimeTable_2023_new\NEA_TimeTable_2023\bin\Debug\";
             filePath = Path.Combine(path, fileName + fileExtension);
 
-
-
-            Console.Clear();
-            Console.WriteLine("File " + filePath + " created or opened successfully.");
 
             string directoryPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directoryPath))
@@ -285,7 +283,7 @@ class ActivitiesAndTimes
 
             using (FileStream fs = File.Create(filePath))
             {
-                Console.Clear();
+                
                 Console.WriteLine("File " + filePath + " created or opened successfully.");
 
                 using (StreamWriter sw = new StreamWriter(fs))
@@ -304,11 +302,11 @@ class ActivitiesAndTimes
                         newRow += 5;
                         // Prints the table
                     }
-                    Console.WriteLine("");
-                    Console.WriteLine("\nComments List:");
+                    sw.WriteLine("");
+                    sw.WriteLine("\nComments List:");
                     if (comments.Count == 0)
                     {
-                        Console.WriteLine("No comments available.");
+                        sw.WriteLine("No comments available.");
                     }
                     else
                     {
