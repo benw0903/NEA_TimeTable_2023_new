@@ -656,6 +656,24 @@ namespace TimeTableApp_NEA
         public static void FinishTable(string filename)
         {
             Console.WriteLine("Here is your finished Timetable for the date " + filename);
+            Console.WriteLine("");
+            Console.WriteLine("Would you like view or create another table or exit the application?");
+            Console.WriteLine("restart");
+            Console.WriteLine("exit");
+
+            string option = Console.ReadLine();
+            while(option != "restart" || option != "exit")
+            {
+                Console.WriteLine("Would you like view or create another table or exit the application?");
+                Console.WriteLine("restart");
+                Console.WriteLine("exit");
+
+                option = Console.ReadLine();
+            }
+            if(option == "restart")
+            {
+                
+            }
         }
         public static void ViewTable()
         {
