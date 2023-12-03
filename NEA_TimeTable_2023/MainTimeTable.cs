@@ -124,7 +124,7 @@ namespace TimeTableApp_NEA
             } while (true);
         }
 
-        static void GetInputtedActivity(out string activity,int count2)
+        static void GetInputtedActivity(out string activity, int count2)
         {
             Console.WriteLine("Enter the activity for the time you have chosen.");
             Console.WriteLine("Slot(" + (count2 + 1) + ")");
@@ -141,7 +141,7 @@ namespace TimeTableApp_NEA
             return option2 == "yes";
         }
 
-        static void PrintTime(int hoursValue, int minutesValue, string[] days,int count1)
+        static void PrintTime(int hoursValue, int minutesValue, string[] days, int count1)
         {
             Console.Clear();
             if (minutesValue > 9)
@@ -173,7 +173,7 @@ namespace TimeTableApp_NEA
 
         static void ActivitiesAndTime(int numColumns, int numRows, string fileName)
         {
-            
+
             Console.Clear();
 
             ActivitiesAndTimes schedule = new ActivitiesAndTimes(numRows, numColumns);
@@ -201,13 +201,13 @@ namespace TimeTableApp_NEA
 
                 GetInputtedTime(out hoursValue, out minutesValue);
 
-                PrintTime(hoursValue, minutesValue, days,count1);
+                PrintTime(hoursValue, minutesValue, days, count1);
 
                 while (!ConfirmActivity())
                 {
                     Console.Clear();
-                    PrintTime(hoursValue, minutesValue,days,count1);
-                    GetInputtedActivity(out activity,count2);
+                    PrintTime(hoursValue, minutesValue, days, count1);
+                    GetInputtedActivity(out activity, count2);
                 }
 
                 schedule.HoursValue(count1, count2, hoursValue);
@@ -216,15 +216,15 @@ namespace TimeTableApp_NEA
                 minutes[count1, count2] = minutesValue;
 
                 Console.Clear();
-                PrintTime(hoursValue, minutesValue,days,count1);
+                PrintTime(hoursValue, minutesValue, days, count1);
 
-                GetInputtedActivity(out activity,count2);
+                GetInputtedActivity(out activity, count2);
 
                 while (!ConfirmActivity())
                 {
                     Console.Clear();
-                    PrintTime(hoursValue, minutesValue, days,count1);
-                    GetInputtedActivity(out activity,count2);
+                    PrintTime(hoursValue, minutesValue, days, count1);
+                    GetInputtedActivity(out activity, count2);
                 }
 
                 schedule.ActivitiesInput(count1, count2, activity);
@@ -248,14 +248,14 @@ namespace TimeTableApp_NEA
                     hasFinishedCommenting = true;
                 }
                 comments.Add(comment);
-            } 
+            }
 
             Console.WriteLine("Comments List:");
             for (int i = 0; i < comments.Count; i++)
             {
                 Console.WriteLine((i + 1) + ". " + comments[i]);
             }
-            
+
 
             while (hasFinisheddeleting == false)
             {
@@ -290,11 +290,11 @@ namespace TimeTableApp_NEA
                 Console.WriteLine($"{i + 1}. {comments[i]}");
             }
 
-            
+
             Console.Clear();
-            
-            schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns,comments);
-            schedule.PrintTable(numRows,comments);
+
+            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns, comments);
+            schedule.PrintTable(numRows, comments);
             schedule.CreateFile(fileName, numColumns, numRows, comments);
             string option3;
             ChangeOption(out option3);
@@ -331,7 +331,7 @@ namespace TimeTableApp_NEA
                 }
                 comments.Add(comment);
             }
-            
+
 
 
             Console.WriteLine("Comments List:");
@@ -341,7 +341,7 @@ namespace TimeTableApp_NEA
             }
             bool hasFinisheddeleting = false;
 
-            while(hasFinisheddeleting== false)
+            while (hasFinisheddeleting == false)
             {
                 Console.Write("Enter the number of the comment to remove.");
                 Console.WriteLine("You can exit by entering (0)");
@@ -552,10 +552,8 @@ namespace TimeTableApp_NEA
 
             Console.Clear();
 
-
-            schedule.block1(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns);
-            schedule.block2(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns,comments);
-            schedule.PrintTable(numRows,comments);
+            schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns, comments);
+            schedule.PrintTable(numRows, comments);
 
             //prints table
 
@@ -582,7 +580,7 @@ namespace TimeTableApp_NEA
                 FinishTable(fileName);
             }
         }
-        
+
         public static void FileName()
         {
             Console.Clear();
@@ -662,24 +660,48 @@ namespace TimeTableApp_NEA
             Console.WriteLine("exit");
 
             string option = Console.ReadLine();
-            while(option != "restart" || option != "exit")
+            option = option.ToLower();
+
+            if (option == "restart")
+            {
+                ViewOrCreate();
+            }
+            if (option == "exit")
+            {
+                Exit();
+            }
+
+            while (option != "restart" || option != "exit")
             {
                 Console.WriteLine("Would you like view or create another table or exit the application?");
                 Console.WriteLine("restart");
                 Console.WriteLine("exit");
 
                 option = Console.ReadLine();
+                option = option.ToLower();
+
+                if (option == "restart")
+                {
+                    ViewOrCreate();
+                }
+                if (option == "exit")
+                {
+                    Exit();
+                }
             }
-            if(option == "restart")
-            {
-                
-            }
+
         }
         public static void ViewTable()
         {
             Console.WriteLine("Enter the name of the file you would like to view.");
             string fileName = Console.ReadLine();
+           
         }
+        public static void Exit()
+        {
+
+        }
+        
     }
 }
  
