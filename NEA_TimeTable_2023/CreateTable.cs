@@ -33,7 +33,7 @@ class ActivitiesAndTimes
         }
         else
         {
-            Console.WriteLine("Invalid row or column.");
+            Console.WriteLine("The inputted row or column is invalid");
         }
     }
     public void MinutesValue(int numRows, int columns, int value)
@@ -44,7 +44,7 @@ class ActivitiesAndTimes
         }
         else
         {
-            Console.WriteLine("Invalid row or column.");
+            Console.WriteLine("The inputted row or column is invalid.");
         }
     }
     public void ActivitiesInput(int numRows, int columns, string value)
@@ -55,7 +55,7 @@ class ActivitiesAndTimes
         }
         else
         {
-            Console.WriteLine("Invalid row or column.");
+            Console.WriteLine("The inputted row or column is invalid.");
         }
     }
     

@@ -105,7 +105,7 @@ namespace TimeTableApp_NEA
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer.");
+                    Console.WriteLine("Enter a valid integer please.");
                 }
             } while (true);
 
@@ -119,7 +119,7 @@ namespace TimeTableApp_NEA
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer.");
+                    Console.WriteLine("Enter a valid integer please.");
                 }
             } while (true);
         }
@@ -162,7 +162,7 @@ namespace TimeTableApp_NEA
             option3 = Console.ReadLine().ToLower();
         }
 
-        static void LoopForOption3(out string option3)
+        static void LoopOption3(out string option3)
         {
             Console.WriteLine(@"Would you like to make more changes or are you happy with the timetable.");
             Console.WriteLine("Change");
@@ -184,8 +184,8 @@ namespace TimeTableApp_NEA
             string[,] activities = new string[numColumns, numRows];
             List<string> comments;
             comments = new List<string>();
-            bool hasFinishedCommenting = false;
-            bool hasFinisheddeleting = false;
+            bool isCommentingFinished = false;
+            bool isDeletingFinished = false;
 
             string[] days = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             int count1 = 0, count2 = 0;
@@ -238,14 +238,14 @@ namespace TimeTableApp_NEA
                 }
             }
 
-            while (!hasFinishedCommenting)
+            while (!isCommentingFinished)
             {
                 Console.Write("Enter a comment or type stop to finish commenting. ");
                 string comment = Console.ReadLine().ToLower();
 
                 if (comment == "stop")
                 {
-                    hasFinishedCommenting = true;
+                    isCommentingFinished = true;
                 }
                 comments.Add(comment);
             }
@@ -257,7 +257,7 @@ namespace TimeTableApp_NEA
             }
 
 
-            while (hasFinisheddeleting == false)
+            while (isDeletingFinished == false)
             {
                 Console.Write("Enter the number of the comment to remove.");
                 Console.WriteLine("You can exit by entering (0)");
@@ -265,7 +265,7 @@ namespace TimeTableApp_NEA
                 {
                     if (selection == 0)
                     {
-                        hasFinisheddeleting = true;
+                        isDeletingFinished = true;
                     }
 
                     if (selection >= 1 && selection <= comments.Count)
@@ -284,7 +284,7 @@ namespace TimeTableApp_NEA
                 }
             }
 
-            Console.WriteLine("Updated Comments List:");
+            Console.WriteLine("Updated comments list:");
             for (int i = 0; i < comments.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {comments[i]}");
@@ -301,7 +301,7 @@ namespace TimeTableApp_NEA
 
             while (option3 != "change" && option3 != "finish")
             {
-                LoopForOption3(out option3);
+                LoopOption3(out option3);
                 ChangeOption(out option3);
             }
             if (option3 == "change")
@@ -317,17 +317,17 @@ namespace TimeTableApp_NEA
         public static List<string> Comments(List<string> comments)
         {
             comments = new List<string>();
-            bool hasFinishedCommenting = false;
+            bool isCommentingFinished = false;
 
 
-            while (!hasFinishedCommenting)
+            while (!isCommentingFinished)
             {
                 Console.Write("Enter a comment or type stop to finish commenting. ");
                 string comment = Console.ReadLine().ToLower();
 
                 if (comment == "stop")
                 {
-                    hasFinishedCommenting = true;
+                    isCommentingFinished = true;
                 }
                 comments.Add(comment);
             }
@@ -339,9 +339,9 @@ namespace TimeTableApp_NEA
             {
                 Console.WriteLine((i + 1) + ". " + comments[i]);
             }
-            bool hasFinisheddeleting = false;
+            bool isDeletingFinished = false;
 
-            while (hasFinisheddeleting == false)
+            while (isDeletingFinished == false)
             {
                 Console.Write("Enter the number of the comment to remove.");
                 Console.WriteLine("You can exit by entering (0)");
@@ -349,7 +349,7 @@ namespace TimeTableApp_NEA
                 {
                     if (selection == 0)
                     {
-                        hasFinisheddeleting = true;
+                        isDeletingFinished = true;
                     }
 
                     if (selection >= 1 && selection <= comments.Count)
@@ -427,7 +427,7 @@ namespace TimeTableApp_NEA
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer. 00-23");
+                    Console.WriteLine("Enter a valid integer please. 00-23");
                 }
             }
 
@@ -442,7 +442,7 @@ namespace TimeTableApp_NEA
                 }
                 else
                 {
-                    Console.WriteLine("Please enter a valid integer. 00-59");
+                    Console.WriteLine("Enter a valid integer please. 00-59");
                 }
             }
 
