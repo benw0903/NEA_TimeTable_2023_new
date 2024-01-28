@@ -27,6 +27,7 @@ namespace TimeTableApp_NEA
 ╚═╝     ╚═╝   ╚═╝      ╚═╝   ╚═╝╚═╝     ╚═╝╚══════╝");
 
             Console.WriteLine("Press any key to enter.");
+            //starting screen
 
             Console.ReadKey();
             Console.Clear();
@@ -57,20 +58,21 @@ namespace TimeTableApp_NEA
 
             int numRows = 0;
             int numColumns = 7;
-            bool hasEnteredValidInt = false;
+            bool IsEnteredIntValid = false;
 
-            while (!hasEnteredValidInt)
+            while (!IsEnteredIntValid)
             {
-                string userInput = Console.ReadLine();
+                string input = Console.ReadLine();
 
-                if (int.TryParse(userInput, out numRows)) { hasEnteredValidInt = true; }
+                if (int.TryParse(input, out numRows)) { IsEnteredIntValid = true; }
                 else { Console.WriteLine("Please enter a valid integer."); }
+                //error handling for inputted strings instead of ints
             };
 
             Console.WriteLine("Are you happy with the amount of slots you have chosen for you activities?");
             Console.WriteLine("Yes");
             Console.WriteLine("No");
-            Console.WriteLine($"(Slot amount: {numRows})");
+            Console.WriteLine("(Slot amount: "+numRows + ")");
             string option = Console.ReadLine().ToLower();
 
             while (option != "yes")
@@ -83,7 +85,7 @@ namespace TimeTableApp_NEA
                 Console.WriteLine("Are you happy with the amount of slots you have chosen for you activities?");
                 Console.WriteLine("Yes");
                 Console.WriteLine("No");
-                Console.WriteLine($"(Slot amount: {numRows})");
+                Console.WriteLine("(Slot amount: " + numRows+")");
 
                 option = Console.ReadLine();
             }
@@ -98,8 +100,8 @@ namespace TimeTableApp_NEA
         {
             do
             {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out hoursValue))
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out hoursValue))
                 {
                     break;
                 }
@@ -107,13 +109,14 @@ namespace TimeTableApp_NEA
                 {
                     Console.WriteLine("Enter a valid integer please.");
                 }
+                //error handling for inputted strings instead of ints
             } while (true);
 
             Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
             do
             {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out minutesValue))
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out minutesValue))
                 {
                     break;
                 }
@@ -121,6 +124,7 @@ namespace TimeTableApp_NEA
                 {
                     Console.WriteLine("Enter a valid integer please.");
                 }
+                //error handling for inputted strings instead of ints
             } while (true);
         }
 
@@ -129,6 +133,7 @@ namespace TimeTableApp_NEA
             Console.WriteLine("Enter the activity for the time you have chosen.");
             Console.WriteLine("Slot(" + (count2 + 1) + ")");
             activity = Console.ReadLine();
+            //looped for every block inside the table
         }
 
         static bool ConfirmActivity()
@@ -139,6 +144,7 @@ namespace TimeTableApp_NEA
             string option2 = Console.ReadLine().ToLower();
 
             return option2 == "yes";
+            //looped for every block inside the table
         }
 
         static void PrintTime(int hoursValue, int minutesValue, string[] days, int count1)
@@ -152,6 +158,7 @@ namespace TimeTableApp_NEA
             {
                 Console.WriteLine(days[count1] + " " + hoursValue + ":0" + minutesValue);
             }
+            //makeing sure that the time is shown to the user in the correct format 
         }
 
         static void ChangeOption(out string option3)
@@ -160,6 +167,7 @@ namespace TimeTableApp_NEA
             Console.WriteLine("Change");
             Console.WriteLine("Finish");
             option3 = Console.ReadLine().ToLower();
+            //used to shorten down the activities and time subroutine to make maintaining it easier
         }
 
         static void LoopOption3(out string option3)
@@ -169,6 +177,7 @@ namespace TimeTableApp_NEA
             Console.WriteLine("Finish");
             option3 = Console.ReadLine().ToLower();
             Console.Clear();
+            //used to shorten down the activities and time subroutine to make maintaining it easier
         }
 
         static void ActivitiesAndTime(int numColumns, int numRows, string fileName)
@@ -255,39 +264,40 @@ namespace TimeTableApp_NEA
             {
                 Console.WriteLine((i + 1) + ". " + comments[i]);
             }
+            //prints the users list of comments
 
 
             while (isDeletingFinished == false)
             {
                 Console.Write("Enter the number of the comment to remove.");
                 Console.WriteLine("You can exit by entering (0)");
-                if (int.TryParse(Console.ReadLine(), out int selection))
+                if (int.TryParse(Console.ReadLine(), out int selectNum))
                 {
-                    if (selection == 0)
+                    if (selectNum == 0)
                     {
                         isDeletingFinished = true;
                     }
-
-                    if (selection >= 1 && selection <= comments.Count)
+                    //exits the commenting interface
+                    if (selectNum >= 1 && selectNum <= comments.Count)
                     {
-                        comments.RemoveAt(selection - 1);
-                        Console.WriteLine("Comment removed.");
+                        comments.RemoveAt(selectNum - 1);
+                        Console.WriteLine("Comment removed."); 
+                        Console.WriteLine("Updated Comments List:");
+                        for (int i = 0; i < comments.Count; i++)
+                        {
+                            Console.WriteLine((i + 1) + ". " + comments[i]);
+                        }
+                        //updates the comments list
                     }
                     else
                     {
-                        Console.WriteLine("Invalid please try again.");
+                        Console.WriteLine("This number is invalid. Please try again.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input please enter a number or '0' to exit.");
+                    Console.WriteLine("This number is invalid input. Please enter a number or '0' to exit.");
                 }
-            }
-
-            Console.WriteLine("Updated comments list:");
-            for (int i = 0; i < comments.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {comments[i]}");
             }
 
 
@@ -314,69 +324,7 @@ namespace TimeTableApp_NEA
             }
         }
 
-        public static List<string> Comments(List<string> comments)
-        {
-            comments = new List<string>();
-            bool isCommentingFinished = false;
 
-
-            while (!isCommentingFinished)
-            {
-                Console.Write("Enter a comment or type stop to finish commenting. ");
-                string comment = Console.ReadLine().ToLower();
-
-                if (comment == "stop")
-                {
-                    isCommentingFinished = true;
-                }
-                comments.Add(comment);
-            }
-
-
-
-            Console.WriteLine("Comments List:");
-            for (int i = 0; i < comments.Count; i++)
-            {
-                Console.WriteLine((i + 1) + ". " + comments[i]);
-            }
-            bool isDeletingFinished = false;
-
-            while (isDeletingFinished == false)
-            {
-                Console.Write("Enter the number of the comment to remove.");
-                Console.WriteLine("You can exit by entering (0)");
-                if (int.TryParse(Console.ReadLine(), out int selection))
-                {
-                    if (selection == 0)
-                    {
-                        isDeletingFinished = true;
-                    }
-
-                    if (selection >= 1 && selection <= comments.Count)
-                    {
-                        Console.Clear();
-                        comments.RemoveAt(selection - 1);
-                        Console.WriteLine("Comment removed.");
-                        Console.WriteLine("Comments List:");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid please try again.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input please enter a number or '0' to exit.");
-                }
-            }
-
-            Console.WriteLine("Updated Comments List:");
-            for (int i = 0; i < comments.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {comments[i]}");
-            }
-            return comments;
-        }
 
         public static void BlockSelect(int numRows, int numColumns, string fileName, int[,] hours, int[,] minutes, string[,] activities)
         {
@@ -389,6 +337,8 @@ namespace TimeTableApp_NEA
             int rows = int.Parse(Console.ReadLine());
             Console.Clear();
 
+            // allows for the user to select whihc blokc they want to change 
+
             while (columns < 0 || columns > numColumns || rows < 0 || columns > numColumns)
             {
                 Console.WriteLine("Enter the number of which day you want to enter (Monday = 1 - Sunday = 7).");
@@ -399,6 +349,7 @@ namespace TimeTableApp_NEA
                 rows = int.Parse(Console.ReadLine());
                 Console.Clear();
             }
+            //makes sure that the users input isnt invalid
 
             if (columns < 0 || columns > numColumns || rows < 0 || columns > numColumns)
             {
@@ -419,8 +370,8 @@ namespace TimeTableApp_NEA
 
             while (true)
             {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
                 {
                     schedule.HoursValue(columns, rows, hoursValue);
                     break;
@@ -434,8 +385,8 @@ namespace TimeTableApp_NEA
             Console.WriteLine("Enter the minute of the hour the activity will take place. 00-59");
             while (true)
             {
-                string userInput = Console.ReadLine();
-                if (int.TryParse(userInput, out minutesValue) && minutesValue >= 0 && minutesValue <= 59)
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out minutesValue) && minutesValue >= 0 && minutesValue <= 59)
                 {
                     schedule.MinutesValue(columns, rows, minutesValue);
                     break;
@@ -461,8 +412,8 @@ namespace TimeTableApp_NEA
                 bool validInput = false;
                 while (!validInput)
                 {
-                    string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out hoursValue) && hoursValue >= 0 && hoursValue <= 23)
                     {
                         schedule.HoursValue(columns, rows, hoursValue);
                         validInput = true;
@@ -478,8 +429,8 @@ namespace TimeTableApp_NEA
                 bool validInput2 = false;
                 while (!validInput2)
                 {
-                    string userInput = Console.ReadLine();
-                    if (int.TryParse(userInput, out minutesValue))
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out minutesValue))
                     {
                         schedule.HoursValue(columns, rows, hoursValue);
                         validInput2 = true;
@@ -515,7 +466,7 @@ namespace TimeTableApp_NEA
             {
                 Console.WriteLine(days[numColumns] + " " + hoursValue + ":0" + minutesValue);
             }
-            // makes sure the time is 1:02 instead of 1:2
+            // makes sure the time is 01:02 instead of 1:2
 
             Console.WriteLine("Enter the activity for the time you have chosen.");
             string activity = Console.ReadLine();
@@ -555,7 +506,7 @@ namespace TimeTableApp_NEA
             schedule.block(schedule.hours, schedule.minutes, schedule.days, schedule.activities, numRows, numColumns, comments);
             schedule.PrintTable(numRows, comments);
 
-            //prints table
+            //prints table with users updated information 
 
             Console.WriteLine("Would you like to make more changes or are the you happy with the timetable.");
             Console.WriteLine("Change");
@@ -633,6 +584,7 @@ namespace TimeTableApp_NEA
                 dayString = fileName.Substring(0, 2); monthString = fileName.Substring(3, 2); YearString = fileName.Substring(6, 4);
                 dayInt = int.Parse(dayString); monthInt = int.Parse(monthString); yearInt = int.Parse(YearString);
             }
+            //if the date is not current or not a valid date then the user will have to enter the date wanted again
 
             Console.WriteLine();
             Console.WriteLine(fileName + "  is a valid date.");
@@ -666,10 +618,12 @@ namespace TimeTableApp_NEA
             {
                 ViewOrCreate();
             }
+            //takes user back to the menu to view or create a table 
             if (option == "exit")
             {
                 Exit();
             }
+            //takes user to a empty function closing the program
 
             while (option != "restart" || option != "exit")
             {
@@ -684,10 +638,12 @@ namespace TimeTableApp_NEA
                 {
                     ViewOrCreate();
                 }
+                //takes user back to the menu to view or create a table 
                 if (option == "exit")
                 {
                     Exit();
                 }
+                //takes user to a empty function closing the program
             }
 
         }

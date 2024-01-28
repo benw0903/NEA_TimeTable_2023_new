@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 using System;
+using System.Management.Instrumentation;
+using System.Diagnostics;
 
 class ActivitiesAndTimes
 {
@@ -35,6 +37,7 @@ class ActivitiesAndTimes
         {
             Console.WriteLine("The inputted row or column is invalid");
         }
+        //Gets the input for hours then stores in inside the 2d array hours
     }
     public void MinutesValue(int numRows, int columns, int value)
     {
@@ -46,6 +49,7 @@ class ActivitiesAndTimes
         {
             Console.WriteLine("The inputted row or column is invalid.");
         }
+        //Gets the input for minutes then stores in inside the 2d array minutes
     }
     public void ActivitiesInput(int numRows, int columns, string value)
     {
@@ -57,6 +61,7 @@ class ActivitiesAndTimes
         {
             Console.WriteLine("The inputted row or column is invalid.");
         }
+        //Gets the activities then stores in inside the 2d array activities 
     }
     
     public void block(int[,] hours, int[,] minutes, string[] days, string[,] activities, int numRows, int numColumns,List<string> comment)
@@ -68,7 +73,7 @@ class ActivitiesAndTimes
         int activitiesAndTimeRow = 0;
 
         StringBuilder repeatLines = new StringBuilder();
-        //puts string together
+        //string manipulator
         string line = ""; string line1 = ""; string line2 = ""; string line3 = ""; string line4 = "";
         for (int i = 0; i < numRows - 1; i++)
         {
@@ -81,12 +86,13 @@ class ActivitiesAndTimes
             {
                 activitiesAndTimeRow += 1;
             }
-            //puts string together
+            
 
             for (int a = 0; a < 7; a++)
             {
                 line = $@"_______________ ";
                 repeatLines.Append(line);
+                //top of box
             }
             line = repeatLines.ToString();
             repeatLines.Clear();
@@ -108,6 +114,7 @@ class ActivitiesAndTimes
             for (int c = 0; c < 7; c++)
             {
                 line2 = $@"| {hours[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}:{minutes[c, activitiesAndTimeRow].ToString().PadLeft(2, '0')}       | ";
+                //uses pad left to make sure that the time appears correctly instead of 1:2 its may show 01:02
                 repeatLines.Append(line2);
             }
             line2 = repeatLines.ToString();
@@ -126,10 +133,12 @@ class ActivitiesAndTimes
             for (int f = 0; f < 7; f++)
             {
                 line4 = $@"|_____________| ";
+                //bottom of box
                 repeatLines.Append(line4);
             }
             line4 = repeatLines.ToString();
             repeatLines.Clear();
+            
             //prints the boxes horizontal instead of vertical
 
 
@@ -139,7 +148,7 @@ class ActivitiesAndTimes
             table2[i,newRow+2] = line2;
             table2[i,newRow+3] = line3;
             table2[i,newRow+4] = line4;
-
+            //makes sure to store each rown in a new place so it doesnt overwrite itself
 
             newRow += 5;
             comments = comment;
@@ -176,6 +185,7 @@ class ActivitiesAndTimes
             {
                 Console.WriteLine((i + 1) + ". " + comments[i]);
             }
+            //prints the comments line by line untill there arent anymore to print
         }
     }
    
@@ -232,7 +242,7 @@ class ActivitiesAndTimes
                     {
                         sw.WriteLine((i + 1) + ". " + comments[i]);
                     }
-                    //prints comments 
+                    //prints comments line by line untill there isnt anymore
                 }
             }
         }
